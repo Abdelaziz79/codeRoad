@@ -1,47 +1,50 @@
+import axios from "axios";
 import supabase from "./supabase";
 
-export async function singup({ fullName, email, password }) {
-  const { data, error } = await supabase.auth.signUp({
-    email,
-    password,
-    options: {
-      data: {
-        full_name: fullName,
-        avatar: "",
-        bio: "",
-        quizs: [],
-        finished_topics: [],
-        created_topics: [],
-        saved_posts: [],
-        created_posts: [],
-        likes: [],
-        dislikes: [],
-        comments: [],
-        followings: [],
-        followers: [],
-        is_admin: false,
+const backendUrl = "https://coderoad.bsite.net";
+let userData = null;
+export async function singup({
+  firstName,
+  lastName,
+  username,
+  email,
+  password,
+}) {
+  console.log({ firstName, lastName, username, email, password });
+  const data = await axios
+    .post(
+      `${backendUrl}/api/Auth/Register `,
+      {
+        firstName,
+        lastName,
+        username,
+        email,
+        password,
       },
-    },
-  });
-  if (error) {
-    console.error(error);
-    throw new Error(error.message);
-  }
+      {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    )
+    .catch((error) => {
+      console.error(error);
+      throw new Error(error.message);
+    });
+  console.log(data);
   return data;
 }
 
 export async function login({ email, password }) {
-  const { data, error } = await supabase.auth.signInWithPassword({
+  console.log({ email, password });
+  const data = await axios.post(`${backendUrl}/api/Auth/Login `, {
     email,
     password,
   });
-  if (error) {
-    console.error(error);
-    throw new Error(error.message);
-  }
+  userData = data.data;
+  console.log(userData);
   return data;
 }
-
 export async function loginWithGithub() {
   const { data, error } = await supabase.auth.signInWithOAuth({
     provider: "github",
@@ -67,15 +70,19 @@ export async function loginWithGoogle() {
 }
 
 export async function getCurrentUser() {
-  const { data: session } = await supabase.auth.getSession();
-  if (!session) return null;
-
-  const { data, error } = await supabase.auth.getUser();
-  if (error) {
-    console.error(error);
-    throw new Error(error.message);
+  if (userData === null) {
+    return null;
   }
-  return data?.user;
+
+  return userData;
+  // const { data: session } = await supabase.auth.getSession();
+  // if (!session) return null;
+  // const { data, error } = await supabase.auth.getUser();
+  // if (error) {
+  //   console.error(error);
+  //   throw new Error(error.message);
+  // }
+  // return data?.user;
 }
 
 export async function logout() {

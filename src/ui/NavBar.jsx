@@ -20,7 +20,7 @@ export default function NavBar() {
   const { logout, isLoading } = useLogout();
   const { user, isLoading: isUserLoading } = useUser();
 
-  const logedInUser = isUserLoading ? null : user.user_metadata;
+  const logedInUser = user;
   const logo = darkMode ? darkLogo : lightLogo;
   const avatar = logedInUser?.avatar_url ?? logo;
 
@@ -41,9 +41,7 @@ export default function NavBar() {
               darkMode ? "text-light" : "text-dark"
             }`}
           >
-            <span className="fw-bold">
-              {logedInUser?.full_name ?? logedInUser?.user_name}
-            </span>
+            <span className="fw-bold">{logedInUser?.userName}</span>
           </Link>
         </li>
         <li>

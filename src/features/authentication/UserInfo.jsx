@@ -5,7 +5,7 @@ import StatisticBox from "../../ui/StatisticBox";
 import lightLogo from "../../../public/1.png";
 import darkLogo from "../../../public/2.png";
 
-import { Col, Row } from "react-bootstrap";
+import { Col, Row, Spinner } from "react-bootstrap";
 import { useUser } from "./useUser";
 import { useDarkMode } from "../../context/DarkModeContext";
 import CreatedTopics from "./CreatedTopics";
@@ -16,11 +16,10 @@ import FinishedQuizs from "./FinishedQuizs";
 export default function UserInfo() {
   const { user, isLoading: isUserLoading } = useUser();
   const { darkMode } = useDarkMode();
-  const isLoading = isUserLoading;
-  const logedInUser = isLoading ? null : user.user_metadata;
+  const logedInUser = user;
   const logo = darkMode ? darkLogo : lightLogo;
   const avatar = logedInUser?.avatar_url ?? logo;
-
+  if (isUserLoading) return <Spinner animation="grow" />;
   return (
     <>
       <Row className="">
@@ -29,7 +28,7 @@ export default function UserInfo() {
         </Col>
         <Col md={8} lg={10} sm={12}>
           <div className="mt-3">
-            <h3>{logedInUser?.full_name ?? logedInUser?.user_name}</h3>
+            <h3>{logedInUser?.userName}</h3>
             <h5>{logedInUser?.email}</h5>
           </div>
         </Col>
