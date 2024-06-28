@@ -5,30 +5,30 @@ import { useUpdatePost } from "./useUpdatePost";
 import { usePost } from "./usePost";
 import { useDarkMode } from "../../context/DarkModeContext";
 import PostForm from "./PostForm";
+import { useUser } from "../authentication/useUser";
+
 export default function UpdatePost() {
   const navigate = useNavigate();
 
   const { isLoading: isLoading1, updatePost } = useUpdatePost();
 
   const { post, isLoading: isLoading2 } = usePost();
-
-  const [title, setTitle] = useState();
+  const { user } = useUser();
   const [content, setContent] = useState();
 
   useEffect(() => {
     if (!post) return;
-    setTitle(post.title);
     setContent(post.content);
   }, [post]);
 
   function handleUpdate(e) {
     e.preventDefault();
-    if (!title || !content) return;
+    if (!content) return;
 
     const newPost = {
-      id: post.id,
-      title,
-      content,
+      id: post.postId,
+      UserId: user.userInfo.id,
+      Content: content,
     };
 
     updatePost(newPost, {
@@ -45,8 +45,6 @@ export default function UpdatePost() {
     >
       <h1 className="mb-4 ">Add new post</h1>
       <PostForm
-        title={title}
-        setTitle={setTitle}
         content={content}
         setContent={setContent}
         isLoading={isLoading1 || isLoading2}

@@ -2,27 +2,51 @@ import React, { useState } from "react";
 import Background from "../../ui/Background";
 import { useUpdateUser } from "./useUpdateUser";
 import { Spinner } from "react-bootstrap";
+import { updatePassword } from "../../services/apiAuth";
+import { toast } from "react-toastify";
+import { useUser } from "./useUser";
 
 export default function UpdateUserPassword() {
+  const [oldPassword, setOldPassword] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
-
-  const { updateUser, isLoading } = useUpdateUser();
-  function handleSubmit(e) {
+  const { user } = useUser();
+  const [isLoading, setIsLoading] = useState();
+  async function handleSubmit(e) {
     e.preventDefault();
+    setIsLoading(true);
     if (!password || !confirmPassword) return;
+    const hasCapital = /[A-Z]/.test(password);
+    const hasNumber = /\d/.test(password);
+    const hasSpecial = /[!@#$%^&*(),.?":{}| <>]/.test(password);
+    if (!hasCapital || !hasNumber || !hasSpecial) {
+      toast.error(
+        "Password must contain at least one uppercase letter, one number, and one special character"
+      );
+      return;
+    }
     if (password !== confirmPassword) {
-      alert("Passwords do not match");
+      toast.error("Passwords do not match");
       return;
     }
     if (password.length < 8) {
-      alert("Password must be at least 8 characters long");
+      toast.error("Password must be at least 8 characters long");
       return;
     }
-    updateUser({ password });
+    await updatePassword({
+      oldPassword: oldPassword,
+      newPassword: password,
+      email: user.userInfo.email,
+    });
+    toast.success("Password updated successfully");
+    setOldPassword("");
+    setPassword("");
+    setConfirmPassword("");
+    setIsLoading(false);
   }
 
   function handleCancel() {
+    setOldPassword("");
     setPassword("");
     setConfirmPassword("");
   }
@@ -33,6 +57,22 @@ export default function UpdateUserPassword() {
         <form>
           <div className="d-flex flex-column gap-3 w-75">
             <div className="d-flex flex-column gap-3 ">
+              <div className="d-flex  gap-3 ">
+                <label className=" form-label w-25" htmlFor="old-password">
+                  Old password
+                </label>
+                <input
+                  onChange={(e) => setOldPassword(e.target.value)}
+                  value={oldPassword}
+                  disabled={isLoading}
+                  type="password"
+                  name="password"
+                  id="old-password"
+                  className="form-control w-75"
+                  required
+                  placeholder="old password"
+                />
+              </div>
               <div className="d-flex  gap-3 ">
                 <label className=" form-label w-25" htmlFor="password">
                   Password

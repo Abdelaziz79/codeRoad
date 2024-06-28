@@ -11,8 +11,8 @@ import { useLoginWithGithub } from "./useLoginWithGithub";
 import { useLoginWithGoogle } from "./useLoginWithGoogle";
 
 export default function Login() {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const [email, setEmail] = useState("abdelazizelhadry1@gmail.com");
+  const [password, setPassword] = useState("Pass0987#");
   const { login, isLoading } = useLogin();
   const { isLoading: isLoadingWithGithub, login: loginWithGithub } =
     useLoginWithGithub();

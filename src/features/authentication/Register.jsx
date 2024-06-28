@@ -46,7 +46,12 @@ export default function Register() {
       alert("Password must be at least 8 characters long");
       return;
     }
-    signup({ email, firstName, lastName, username, password });
+    try {
+      signup({ email, firstName, lastName, username, password });
+    } catch (error) {
+      console.error(error);
+    }
+    navigator("/login");
   }
 
   return (

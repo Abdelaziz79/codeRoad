@@ -1,5 +1,7 @@
+import axios from "axios";
 import { POST_SIZE } from "../helper/constans";
 import supabase from "./supabase";
+const backendUrl = "https://localhost:7088/";
 
 export async function getPosts({ page }) {
   let query = supabase
@@ -24,51 +26,55 @@ export async function getPosts({ page }) {
 }
 
 export async function createPost(post) {
-  const { data, error } = await supabase.from("posts").insert([post]).select();
-  if (error) {
-    console.error(error);
-    throw new Error(error.message);
-  }
+  console.log(post);
+  const formData = new FormData();
+  formData.append("UserId", post.UserId);
+  formData.append("Content", post.Content);
+
+  const { data } = await axios
+    .post(`${backendUrl}api/Post/CreatePost`, formData)
+    .catch((error) => {
+      console.error(error);
+      throw new Error(error.message);
+    });
+
   return data;
 }
 
 export async function updatePost(post) {
-  const { data, error } = await supabase
-    .from("posts")
-    .update(post)
-    .eq("id", post.id)
-    .select();
-  if (error) {
-    console.error(error);
-    throw new Error(error.message);
-  }
+  console.log(post);
+  const formData = new FormData();
+  formData.append("UserId", post.UserId);
+  formData.append("Content", post.Content);
+  const { data } = await axios
+    .put(`${backendUrl}api/Post/${post.id}`, formData)
+    .catch((error) => {
+      console.error(error);
+      throw new Error(error.message);
+    });
+
   return data;
 }
 
 export async function getUserPosts(userId) {
-  const { data, error } = await supabase
-    .from("posts")
-    .select("*")
-    .eq("user_id", userId)
-    .eq("is_deleted", false);
-  if (error) {
-    console.error(error);
-    throw new Error(error.message);
-  }
+  const { data } = await axios
+    .get(`${backendUrl}/api/Post/userPosts/${userId}`)
+    .catch((error) => {
+      console.error(error);
+      throw new Error(error.message);
+    });
+
   return data;
 }
 
 export async function getPost(id) {
-  const { data, error } = await supabase
-    .from("posts")
-    .select("*")
-    .eq("id", id)
-    .eq("is_deleted", false)
-    .single();
-  if (error) {
-    console.error(error);
-    throw new Error(error.message);
-  }
+  const { data } = await axios
+    .get(`${backendUrl}api/Post/${id}`)
+    .catch((error) => {
+      console.error(error);
+      throw new Error(error.message);
+    });
+
   return data;
 }
 
@@ -86,15 +92,13 @@ export async function reportPost(id) {
 }
 
 export async function deletePost(id) {
-  const { data, error } = await supabase
-    .from("posts")
-    .update({ is_deleted: true })
-    .eq("id", id)
-    .select();
-  if (error) {
-    console.error(error);
-    throw new Error(error.message);
-  }
+  const { data } = await axios
+    .delete(`${backendUrl}api/Post?id=${id}`)
+    .catch((error) => {
+      console.error(error);
+      throw new Error(error.message);
+    });
+
   return data;
 }
 

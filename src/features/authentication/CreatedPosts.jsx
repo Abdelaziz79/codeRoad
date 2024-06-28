@@ -1,9 +1,6 @@
-import { useUserPosts } from "../posts/useUserPosts";
 import EmptyText from "./EmptyText";
-import { Spinner } from "react-bootstrap";
 import PostBase from "./PostBase";
-export default function CreatedPosts() {
-  const { userPosts, isLoading } = useUserPosts();
+export default function CreatedPosts({ posts }) {
   const buttons = {
     deletePost: true,
     reportPost: false,
@@ -11,7 +8,7 @@ export default function CreatedPosts() {
     editPost: true,
     removePost: false,
   };
-  if (isLoading) return <Spinner />;
-  if (!userPosts || userPosts.length === 0) return <EmptyText />;
-  else return <PostBase posts={userPosts} buttons={buttons} />;
+
+  if (!posts || posts.length === 0) return <EmptyText />;
+  else return <PostBase posts={posts} buttons={buttons} />;
 }

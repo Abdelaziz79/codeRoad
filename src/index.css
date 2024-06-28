@@ -401,7 +401,7 @@ blockquote {
 /* /////////////////////////// table \\\\\\\\\\\\\\\\\\\\\\\\\\\\\ */
 .t-td {
   width: 200px;
-  text-overflow: ellipsis;
+  text-overflow: hidden;
 }
 .t-title {
   font-size: large;

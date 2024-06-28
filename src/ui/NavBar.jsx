@@ -18,11 +18,10 @@ import { useUser } from "../features/authentication/useUser";
 export default function NavBar() {
   const { darkMode, setDarkMode } = useDarkMode();
   const { logout, isLoading } = useLogout();
-  const { user, isLoading: isUserLoading } = useUser();
+  const { user } = useUser();
 
-  const logedInUser = user;
   const logo = darkMode ? darkLogo : lightLogo;
-  const avatar = logedInUser?.avatar_url ?? logo;
+  const avatar = user?.userImage ?? logo;
 
   return (
     <div className="mb-5">
@@ -41,7 +40,7 @@ export default function NavBar() {
               darkMode ? "text-light" : "text-dark"
             }`}
           >
-            <span className="fw-bold">{logedInUser?.userName}</span>
+            <span className="fw-bold">{user?.userInfo?.userName}</span>
           </Link>
         </li>
         <li>

@@ -1,29 +1,8 @@
 import MarkdownEditor from "../explanation/MarkdownEditor";
 
-export default function PostForm({
-  title,
-  setTitle,
-  content,
-  setContent,
-  isLoading,
-}) {
+export default function PostForm({ content, setContent, isLoading }) {
   return (
     <>
-      <label htmlFor="title" className="form-label fs-4">
-        Title
-      </label>
-      <input
-        maxLength={30}
-        className="form-control"
-        type="text"
-        name="title"
-        id="title"
-        value={title}
-        required
-        placeholder="title"
-        onChange={(e) => setTitle(e.target.value)}
-        disabled={isLoading}
-      />
       <label htmlFor="content" className="form-label fs-4">
         Content
       </label>

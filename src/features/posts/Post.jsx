@@ -1,32 +1,28 @@
-import Avatar from "../../ui/Avatar";
-import MarkDown from "../../ui/MarkDown";
 import lightLogo from "../../../public/1.png";
 import darkLogo from "../../../public/2.png";
+import Avatar from "../../ui/Avatar";
+import MarkDown from "../../ui/MarkDown";
 
 import { useRef, useState } from "react";
 import { Card, Col, Row, Spinner } from "react-bootstrap";
-import { useDarkMode } from "../../context/DarkModeContext";
 import {
-  HiHandThumbUp,
-  HiHandThumbDown,
-  HiMegaphone,
   HiBookmark,
+  HiMegaphone,
   HiMiniGlobeEuropeAfrica,
-  HiOutlineHandThumbUp,
   HiOutlineHandThumbDown,
+  HiOutlineHandThumbUp,
 } from "react-icons/hi2";
-import { useSavedPost } from "./useSavedPost";
-import { useUser } from "../authentication/useUser";
-import { useReportPost } from "./useReportPost";
-import { useCommentsOnPost } from "../comments/useCommentsOnPost";
-import { useQueryClient } from "@tanstack/react-query";
-import { useIncreasePostDown, useIncreasePostUp } from "./usePostUpDown";
-import { toast } from "react-toastify";
-import { updateUserDislikes, updateUserLikes } from "../../services/apiAuth";
+import { useDarkMode } from "../../context/DarkModeContext";
 import { formatedDate } from "../../helper/helper";
+import { useUser } from "../authentication/useUser";
 import Comments from "../comments/Comments";
+import { useCommentsOnPost } from "../comments/useCommentsOnPost";
+import { useIncreasePostDown, useIncreasePostUp } from "./usePostUpDown";
+import { useReportPost } from "./useReportPost";
+import { useSavedPost } from "./useSavedPost";
 
 export default function Post({ post }) {
+  console.log(post);
   const { darkMode } = useDarkMode();
   const { savePost, isLoading } = useSavedPost();
   const { user } = useUser();
@@ -36,10 +32,8 @@ export default function Post({ post }) {
   const { increasePostUp, isLoading: isLoading4 } = useIncreasePostUp();
   const { increasePostDown, isLoading: isLoading5 } = useIncreasePostDown();
   const logo = darkMode ? darkLogo : lightLogo;
-  const authorImage = post?.author_image || logo;
-  const queryClient = useQueryClient();
-  const likes = user.user_metadata.likes || [];
-  const dislikes = user.user_metadata.dislikes || [];
+
+  console.log(user);
 
   let addUp = useRef(0);
   let addDown = useRef(0);
@@ -58,78 +52,23 @@ export default function Post({ post }) {
   function handleShowComments() {
     setShowComments(!showComments);
   }
-
-  async function handleUpvote(e) {
-    e.preventDefault();
-
-    let foundInLikes = false;
-    let foundInDislikes = false;
-    if (likes.length > 0) {
-      foundInLikes = likes.find((like) => like.post_id * 1 === post.id * 1);
-    }
-    if (dislikes.length > 0) {
-      foundInDislikes = dislikes.find(
-        (dislike) => dislike.post_id * 1 === post.id * 1
-      );
-    }
-    if (foundInLikes || foundInDislikes) {
-      toast.error(
-        `You have already ${foundInLikes ? "upvoted" : "downvoted"} this post`
-      );
-      return;
-    }
-    const newUserLikes = [
-      ...(user.user_metadata.likes || []),
-      { post_id: post.id },
-    ];
-    await updateUserLikes(newUserLikes);
-    increasePostUp(post.id);
-    queryClient.invalidateQueries({ queryKey: ["user"] });
-    addUp.current = 1;
-  }
-
-  async function handleDownvote(e) {
-    e.preventDefault();
-
-    let foundInLikes = false;
-    let foundInDislikes = false;
-    if (likes.length > 0) {
-      foundInLikes = likes.find((like) => like.post_id * 1 === post.id * 1);
-    }
-    if (dislikes.length > 0) {
-      foundInDislikes = dislikes.find(
-        (dislike) => dislike.post_id * 1 === post.id * 1
-      );
-    }
-
-    if (foundInLikes || foundInDislikes) {
-      toast.error(
-        `You have already ${foundInLikes ? "upvoted" : "downvoted"} this post`
-      );
-      return;
-    }
-    const newUserDislikes = [
-      ...(user.user_metadata.dislikes || []),
-      { post_id: post.id },
-    ];
-    await updateUserDislikes(newUserDislikes);
-    increasePostDown(post.id);
-    queryClient.invalidateQueries({ queryKey: ["user"] });
-    addDown.current = 1;
-  }
-
   return (
     <Row className="">
       <Col sm={12} md={12} lg={8} className="mx-auto">
         <Card className={`w-100 ${darkMode ? "post-dark" : ""}`}>
           <Card.Header className={`${darkMode ? "post-header-border" : ""}`}>
             <div className="d-flex align-items-center gap-3">
-              <Avatar src={authorImage} alt="avatar" width={70} height={70} />
+              <Avatar
+                src={post?.userImage ?? logo}
+                alt="avatar"
+                width={70}
+                height={70}
+              />
               <div>
-                <h6>{post?.author_name}</h6>
+                <h6>{post?.userName}</h6>
                 <span className="date d-flex gap-1">
                   <HiMiniGlobeEuropeAfrica size={20} />
-                  {formatedDate(post?.created_at)}
+                  {formatedDate(post?.date)}
                 </span>
               </div>
               <div className="flex-grow-1 ">
@@ -161,12 +100,12 @@ export default function Post({ post }) {
             </div>
           </Card.Header>
           <Card.Body>
-            <Card.Title>{post.title}</Card.Title>
+            <Card.Title>{post?.title}</Card.Title>
             <div
               className="no-scroll-width  "
               style={{ maxHeight: "500px", overflowY: "auto" }}
             >
-              <MarkDown markdown={post.content} />
+              <MarkDown markdown={post?.content} />
             </div>
             <hr />
             <div className="d-flex align-items-center gap-3">
@@ -174,11 +113,7 @@ export default function Post({ post }) {
                 {isLoading4 ? (
                   <Spinner />
                 ) : (
-                  <HiOutlineHandThumbUp
-                    size={20}
-                    onClick={handleUpvote}
-                    className="pointer"
-                  />
+                  <HiOutlineHandThumbUp size={20} className="pointer" />
                 )}
                 {post?.up + addUp.current}
               </span>
@@ -186,11 +121,7 @@ export default function Post({ post }) {
                 {isLoading5 ? (
                   <Spinner />
                 ) : (
-                  <HiOutlineHandThumbDown
-                    size={20}
-                    onClick={handleDownvote}
-                    className="pointer"
-                  />
+                  <HiOutlineHandThumbDown size={20} className="pointer" />
                 )}
                 {post?.down + addDown.current}
               </span>
@@ -199,7 +130,7 @@ export default function Post({ post }) {
                   className=" float-end pointer"
                   onClick={handleShowComments}
                 >
-                  {isLoading2 ? <Spinner /> : comments.length} comments
+                  {isLoading2 ? <Spinner /> : comments?.length ?? 0} comments
                 </span>
               </div>
             </div>
@@ -207,8 +138,8 @@ export default function Post({ post }) {
             {showComments && (
               <Comments
                 comments={comments}
-                user_id={user.id}
-                post_id={post.id}
+                user_id={user?.id}
+                post_id={post?.id}
                 author_name={
                   user?.user_metadata?.full_name ||
                   user?.user_metadata?.user_name

@@ -1,31 +1,41 @@
 import React, { useState } from "react";
 import Background from "../../ui/Background";
 import { useUser } from "./useUser";
-import { useUpdateUser } from "./useUpdateUser";
 import { Spinner } from "react-bootstrap";
+import { updateUserImage, updateUserName } from "../../services/apiAuth";
+import { toast } from "react-toastify";
 
 export default function UpdateUserInfo() {
-  const { user, isLoading: isUserLoading } = useUser();
+  const { user } = useUser();
+  const currentEmail = user?.userInfo?.email;
+  const name = user?.userInfo?.userName;
 
-  const logedInUser = isUserLoading ? null : user.user_metadata;
-  const currenteEmail = logedInUser?.email;
-  const name = logedInUser?.full_name ?? logedInUser?.user_name;
+  const [userName, setUserName] = useState(name);
+  const [avatar, setAvatar] = useState(null);
+  const [isLoading, setIsLoading] = useState(false);
 
-  const [fullName, setFullName] = useState(name);
-  const [avatar, setAvatar] = useState(logedInUser?.avatar);
-  const { isLoading, updateUser } = useUpdateUser();
-
-  function handleSubmit(e) {
+  async function handleSubmit(e) {
     e.preventDefault();
-    if (!fullName) return;
-    console.log(avatar, fullName);
-
-    updateUser({ fullName });
+    setIsLoading(true);
+    if (!userName && !avatar) return;
+    try {
+      if (userName !== undefined && userName !== user.userInfo.userName) {
+        await updateUserName(userName);
+        toast.success("Name updated successfully");
+      }
+      if (avatar) {
+        await updateUserImage({ avatar });
+        toast.success("avatar updated successfully");
+      }
+    } catch (error) {
+      console.error(error);
+    }
+    setIsLoading(false);
   }
 
   function handleCancel() {
-    setFullName(name);
-    setAvatar(logedInUser?.avatar);
+    setUserName(name);
+    setAvatar(user?.userImage);
   }
 
   return (
@@ -38,7 +48,7 @@ export default function UpdateUserInfo() {
               Email
             </label>
             <input
-              value={currenteEmail}
+              value={currentEmail}
               type="email"
               name="email"
               id="email"
@@ -54,8 +64,8 @@ export default function UpdateUserInfo() {
               Name
             </label>
             <input
-              value={fullName}
-              onChange={(e) => setFullName(e.target.value)}
+              value={userName}
+              onChange={(e) => setUserName(e.target.value)}
               type="text"
               name="name"
               id="name"

@@ -8,11 +8,14 @@ import {
   HiMiniClipboardDocumentList,
 } from "react-icons/hi2";
 import { useDarkMode } from "../context/DarkModeContext";
+import { useUser } from "../features/authentication/useUser";
 
 export default function UserPage() {
   const { darkMode } = useDarkMode();
   const navigate = useNavigate();
   const url = window.location.pathname;
+  const { user } = useUser();
+  console.log(user);
   useEffect(() => {
     if (url === "/user") {
       navigate("/user/account");
@@ -50,17 +53,19 @@ export default function UserPage() {
           </span>
         </NavLink>
 
-        <NavLink
-          to="addtopic"
-          className={
-            darkMode ? ({ isActive }) => (isActive ? "active-dark" : "") : ""
-          }
-        >
-          <span className="">
-            <HiMiniBeaker />
-            Add Topic
-          </span>
-        </NavLink>
+        {user?.userInfo?.role === "admin" && (
+          <NavLink
+            to="addtopic"
+            className={
+              darkMode ? ({ isActive }) => (isActive ? "active-dark" : "") : ""
+            }
+          >
+            <span className="">
+              <HiMiniBeaker />
+              Add Topic
+            </span>
+          </NavLink>
+        )}
         <NavLink
           to="update"
           className={
@@ -69,7 +74,7 @@ export default function UserPage() {
         >
           <span className="">
             <HiMiniClipboardDocumentList size={20} />
-            Update Info
+            Settings
           </span>
         </NavLink>
       </div>

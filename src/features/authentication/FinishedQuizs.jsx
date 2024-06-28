@@ -1,9 +1,7 @@
 import EmptyText from "./EmptyText";
 import QuizBase from "./QuizBase";
-import { useUserQuizs } from "./useUserQuizs";
 
-export default function FinishedQuizs() {
-  const { quizs } = useUserQuizs();
+export default function FinishedQuizs({ quizs }) {
   if (!quizs || quizs.length === 0) return <EmptyText />;
-  else return <QuizBase quizs={quizs.quizs} />;
+  else return <QuizBase quizs={quizs} />;
 }

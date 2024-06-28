@@ -67,17 +67,17 @@ export default function Base({ items, link, buttons }) {
       <thead>
         <tr>
           <th></th>
-          <th>Title</th>
+          <th>Content</th>
           <th>view</th>
         </tr>
       </thead>
       <tbody>
         {items.map((item) =>
           item.is_deleted ? null : (
-            <tr key={item.id}>
-              <td className="t-td">{++i}</td>
-              <td className="t-td">{item.title}</td>
-              <td className="t-td">
+            <tr key={item.id} className="w-20">
+              <td className="t-td ">{++i}</td>
+              <td className="t-td  ">{item.content}</td>
+              <td className="t-td ">
                 <div className="d-flex align-items-center">
                   <Link
                     to={`/${link}/${item.id}`}
