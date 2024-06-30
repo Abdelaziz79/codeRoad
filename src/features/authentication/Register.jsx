@@ -1,13 +1,13 @@
-import Avatar from "../../ui/Avatar";
 import lightImage from "../../../public/1.png";
 import darkImage from "../../../public/2.png";
+import Avatar from "../../ui/Avatar";
 
-import { useDarkMode } from "../../context/DarkModeContext";
+import { useState } from "react";
 import { FaGithub, FaGoogle } from "react-icons/fa6";
+import { useDarkMode } from "../../context/DarkModeContext";
 import { useLoginWithGithub } from "./useLoginWithGithub";
 import { useLoginWithGoogle } from "./useLoginWithGoogle";
 import { useSignup } from "./useSignup";
-import { useState } from "react";
 
 export default function Register() {
   const [email, setEmail] = useState("");

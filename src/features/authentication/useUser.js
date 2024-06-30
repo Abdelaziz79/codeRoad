@@ -6,5 +6,9 @@ export function useUser() {
     queryFn: getCurrentUser,
     queryKey: ["user"],
   });
-  return { user, isLoading, isAuthenticated: user !== undefined };
+  return {
+    user,
+    isLoading,
+    isAuthenticated: user !== undefined && user !== null,
+  };
 }

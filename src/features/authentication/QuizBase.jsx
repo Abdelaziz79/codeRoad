@@ -1,9 +1,9 @@
-import { useDarkMode } from "../../context/DarkModeContext";
-import { HiMiniArrowRightCircle } from "react-icons/hi2";
-import { Link } from "react-router-dom";
 import { Table } from "react-bootstrap";
 import { CircularProgressbar } from "react-circular-progressbar";
 import "react-circular-progressbar/dist/styles.css";
+import { HiMiniArrowRightCircle } from "react-icons/hi2";
+import { Link } from "react-router-dom";
+import { useDarkMode } from "../../context/DarkModeContext";
 
 export default function QuizBase({ quizs }) {
   const { darkMode } = useDarkMode();

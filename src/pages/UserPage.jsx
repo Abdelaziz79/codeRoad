@@ -1,12 +1,12 @@
 import React, { useEffect } from "react";
 
-import { NavLink, Outlet, useNavigate } from "react-router-dom";
 import {
   HiDocumentPlus,
   HiIdentification,
   HiMiniBeaker,
   HiMiniClipboardDocumentList,
 } from "react-icons/hi2";
+import { NavLink, Outlet, useNavigate } from "react-router-dom";
 import { useDarkMode } from "../context/DarkModeContext";
 import { useUser } from "../features/authentication/useUser";
 
@@ -53,7 +53,7 @@ export default function UserPage() {
           </span>
         </NavLink>
 
-        {user?.userInfo?.role === "admin" && (
+        {user?.isAdmin && (
           <NavLink
             to="addtopic"
             className={

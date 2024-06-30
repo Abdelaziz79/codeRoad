@@ -1,30 +1,13 @@
 import axios from "axios";
-import supabase from "./supabase";
 
 const backendUrl = "https://localhost:7088/";
 
 export async function loginWithGithub() {
-  const { data, error } = await supabase.auth.signInWithOAuth({
-    provider: "github",
-  });
-  if (error) {
-    console.error(error);
-    throw new Error(error.message);
-  }
-
-  return data;
+  throw new Error("not implemented");
 }
 
 export async function loginWithGoogle() {
-  const { data, error } = await supabase.auth.signInWithOAuth({
-    provider: "google",
-  });
-  if (error) {
-    console.error(error);
-    throw new Error(error.message);
-  }
-
-  return data;
+  throw new Error("not implemented");
 }
 
 export async function singup({
@@ -83,17 +66,7 @@ export async function logout() {
 }
 
 export async function updateCurrentUser(user) {
-  // const { data } = await axios
-  //   .put(`${backendUrl}api/User/UpdateUser`, user, {
-  //     headers: {
-  //       Authorization: `Bearer ${token}`,
-  //     },
-  //   })
-  //   .catch((error) => {
-  //     console.error(error);
-  //     throw new Error(error.message);
-  //   });
-  // return data;
+  throw new Error("not implemented");
 }
 
 export async function updateUserName(username) {
@@ -174,60 +147,19 @@ export async function deleteUser(email) {
 }
 
 export async function updateUserQuizs(quizs) {
-  const updateDate = {
-    data: {
-      quizs,
-    },
-  };
-
-  const { error, data } = await supabase.auth.updateUser(updateDate);
-  if (error) {
-    console.error(error);
-    throw new Error(error.message);
-  }
-  return data;
+  throw new Error("not implemented");
 }
 
 export async function updateSavedPosts(savedPosts) {
-  const updateDate = {
-    data: {
-      saved_posts: savedPosts,
-    },
-  };
-  const { data, error } = await supabase.auth.updateUser(updateDate);
-  if (error) {
-    console.error(error);
-    throw new Error(error.message);
-  }
-  return data;
+  throw new Error("not implemented");
 }
 
 export async function updateUserLikes(likes) {
-  const updateDate = {
-    data: {
-      likes,
-    },
-  };
-  const { data, error } = await supabase.auth.updateUser(updateDate);
-  if (error) {
-    console.error(error);
-    throw new Error(error.message);
-  }
-  return data;
+  throw new Error("not implemented");
 }
 
 export async function updateUserDislikes(dislikes) {
-  const updateDate = {
-    data: {
-      dislikes,
-    },
-  };
-  const { data, error } = await supabase.auth.updateUser(updateDate);
-  if (error) {
-    console.error(error);
-    throw new Error(error.message);
-  }
-  return data;
+  throw new Error("not implemented");
 }
 export async function getUserImage(id) {
   const { data } = await axios

@@ -1,9 +1,10 @@
 import Explanation from "./Explanation";
 import { memo } from "react";
-import { Col, Row } from "react-bootstrap";
+import { Col, Row, Spinner } from "react-bootstrap";
 import { useDarkMode } from "../../context/DarkModeContext";
 
 import MarkdownEditor from "./MarkdownEditor";
+import { useTopicsNames } from "./useTopicsNames";
 
 const MemoizedExplanation = memo(Explanation);
 
@@ -19,6 +20,8 @@ export default function ExplanationForm({
   setTitle,
 }) {
   const { darkMode } = useDarkMode();
+  const { isLoading: l2, topicsNames } = useTopicsNames();
+  if (l2) return <Spinner />;
   return (
     <Row>
       <Col sm={12} md={12} lg={6}>
@@ -26,19 +29,21 @@ export default function ExplanationForm({
           <Row className="h-25">
             <Col>
               <label htmlFor="topic" className="form-label fs-4">
-                Topic
+                Topic Name
               </label>
-              <input
-                maxLength={30}
-                type="text"
-                name="topic"
+              <select
+                disabled={l2 && isLoading}
                 id="topic"
-                className=" form-control "
-                placeholder="topic name"
+                className="form-select "
                 value={topicName}
-                disabled={isLoading}
                 onChange={(e) => setTopicName(e.target.value)}
-              />
+              >
+                {topicsNames.map((e) => (
+                  <option key={e.name} value={e.name}>
+                    {e.name}
+                  </option>
+                ))}
+              </select>
             </Col>
             <Col>
               <label htmlFor="level" className="form-label fs-4">

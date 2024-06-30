@@ -4,13 +4,11 @@ import TableComp from "./TableComp";
 import { Spinner } from "react-bootstrap";
 import { HiListBullet, HiOutlineSquares2X2 } from "react-icons/hi2";
 import { useLocalStorageState } from "../../hooks/useLocalStorageState";
-import { useVerifiedTopics } from "./useVerifiedTopics";
 import SearchTopics from "./SearchTopics";
-import Pagination from "../../ui/Pagination";
-// import { useState } from "react";
+import { useVerifiedTopics } from "./useVerifiedTopics";
 
 export default function TheTopicsList() {
-  const { isLoading, verifiedTopics, count } = useVerifiedTopics();
+  const { isLoading, topics } = useVerifiedTopics();
   const [table, setTable] = useLocalStorageState(true, "table");
 
   if (isLoading) {
@@ -34,18 +32,15 @@ export default function TheTopicsList() {
       </div>
       {!table ? (
         <div className="d-flex gap-3 flex-wrap">
-          {verifiedTopics.map((explanation) => (
+          {topics.map((explanation) => (
             <Box key={explanation.id} item={explanation} />
           ))}
         </div>
       ) : (
         <div>
-          <TableComp explanations={verifiedTopics} />
+          <TableComp explanations={topics} />
         </div>
       )}
-      <div className="my-3">
-        <Pagination count={count} />
-      </div>
     </>
   );
 }

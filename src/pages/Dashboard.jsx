@@ -5,7 +5,7 @@ import DashboardPage from "../ui/DashboardPage";
 import { Spinner } from "react-bootstrap";
 export default function Dashboard() {
   const { user, isLoading: isUserLoading } = useUser();
-  const isAdmin = user?.user_metadata?.is_admin;
+  const isAdmin = user?.isAdmin;
   if (isUserLoading) return <Spinner />;
 
   return (

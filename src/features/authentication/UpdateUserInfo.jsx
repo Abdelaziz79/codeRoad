@@ -1,9 +1,9 @@
 import React, { useState } from "react";
+import { Spinner } from "react-bootstrap";
+import { toast } from "react-toastify";
+import { updateUserImage, updateUserName } from "../../services/apiAuth";
 import Background from "../../ui/Background";
 import { useUser } from "./useUser";
-import { Spinner } from "react-bootstrap";
-import { updateUserImage, updateUserName } from "../../services/apiAuth";
-import { toast } from "react-toastify";
 
 export default function UpdateUserInfo() {
   const { user } = useUser();

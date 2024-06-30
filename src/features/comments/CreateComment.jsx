@@ -17,13 +17,10 @@ export default function CreateComment({
 
   function handleClick(e) {
     e.preventDefault();
-    if (!comment || !user_id || !post_id || !author_name) return;
+    if (!comment || !post_id) return;
     const newComment = {
       content: comment,
-      post_id,
-      user_id,
-      author_name,
-      author_image,
+      postId: post_id,
     };
 
     create(newComment);

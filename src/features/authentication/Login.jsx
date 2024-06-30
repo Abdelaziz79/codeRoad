@@ -1,12 +1,12 @@
-import Avatar from "../../ui/Avatar";
 import lightImage from "../../../public/1.png";
 import darkImage from "../../../public/2.png";
+import Avatar from "../../ui/Avatar";
 
 import { useState } from "react";
-import { useLogin } from "./useLogin";
-import { useDarkMode } from "../../context/DarkModeContext";
-import { Link } from "react-router-dom";
 import { FaGithub, FaGoogle } from "react-icons/fa6";
+import { Link } from "react-router-dom";
+import { useDarkMode } from "../../context/DarkModeContext";
+import { useLogin } from "./useLogin";
 import { useLoginWithGithub } from "./useLoginWithGithub";
 import { useLoginWithGoogle } from "./useLoginWithGoogle";
 

@@ -16,7 +16,6 @@ import { useDarkMode } from "../../context/DarkModeContext";
 import { formatedDate } from "../../helper/helper";
 import { useUser } from "../authentication/useUser";
 import Comments from "../comments/Comments";
-import { useCommentsOnPost } from "../comments/useCommentsOnPost";
 import { useIncreasePostDown, useIncreasePostUp } from "./usePostUpDown";
 import { useReportPost } from "./useReportPost";
 import { useSavedPost } from "./useSavedPost";
@@ -26,7 +25,6 @@ export default function Post({ post }) {
   const { darkMode } = useDarkMode();
   const { savePost, isLoading } = useSavedPost();
   const { user } = useUser();
-  const { isLoading: isLoading2, comments } = useCommentsOnPost(post.id);
   const { isLoading: isLoading3, reportPost } = useReportPost();
   const [showComments, setShowComments] = useState(false);
   const { increasePostUp, isLoading: isLoading4 } = useIncreasePostUp();
@@ -59,16 +57,16 @@ export default function Post({ post }) {
           <Card.Header className={`${darkMode ? "post-header-border" : ""}`}>
             <div className="d-flex align-items-center gap-3">
               <Avatar
-                src={post?.userImage ?? logo}
+                src={post.post?.userImage ?? logo}
                 alt="avatar"
                 width={70}
                 height={70}
               />
               <div>
-                <h6>{post?.userName}</h6>
+                <h6>{post.post?.userName}</h6>
                 <span className="date d-flex gap-1">
                   <HiMiniGlobeEuropeAfrica size={20} />
-                  {formatedDate(post?.date)}
+                  {formatedDate(post.post?.date)}
                 </span>
               </div>
               <div className="flex-grow-1 ">
@@ -100,12 +98,11 @@ export default function Post({ post }) {
             </div>
           </Card.Header>
           <Card.Body>
-            <Card.Title>{post?.title}</Card.Title>
             <div
               className="no-scroll-width  "
               style={{ maxHeight: "500px", overflowY: "auto" }}
             >
-              <MarkDown markdown={post?.content} />
+              <MarkDown markdown={post.post?.content} />
             </div>
             <hr />
             <div className="d-flex align-items-center gap-3">
@@ -113,9 +110,13 @@ export default function Post({ post }) {
                 {isLoading4 ? (
                   <Spinner />
                 ) : (
-                  <HiOutlineHandThumbUp size={20} className="pointer" />
+                  <HiOutlineHandThumbUp
+                    size={20}
+                    className="pointer"
+                    onClick={() => increasePostUp(post.postId)}
+                  />
                 )}
-                {post?.up + addUp.current}
+                {post.post?.up + addUp.current}
               </span>
               <span className="d-flex align-items-center gap-2">
                 {isLoading5 ? (
@@ -123,31 +124,20 @@ export default function Post({ post }) {
                 ) : (
                   <HiOutlineHandThumbDown size={20} className="pointer" />
                 )}
-                {post?.down + addDown.current}
+                {post.post?.down + addDown.current}
               </span>
               <div className="flex-grow-1">
                 <span
                   className=" float-end pointer"
                   onClick={handleShowComments}
                 >
-                  {isLoading2 ? <Spinner /> : comments?.length ?? 0} comments
+                  {post.comments.length ?? 0} comments
                 </span>
               </div>
             </div>
 
             {showComments && (
-              <Comments
-                comments={comments}
-                user_id={user?.id}
-                post_id={post?.id}
-                author_name={
-                  user?.user_metadata?.full_name ||
-                  user?.user_metadata?.user_name
-                }
-                author_image={
-                  user?.user_metadata?.avatar || user?.user_metadata?.avatar_url
-                }
-              />
+              <Comments comments={post.comments} post_id={post.post?.postId} />
             )}
           </Card.Body>
         </Card>

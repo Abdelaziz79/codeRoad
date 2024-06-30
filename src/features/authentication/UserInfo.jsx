@@ -45,13 +45,6 @@ export default function UserInfo() {
         </Col>
       </Row>
       <Row className="mt-5">
-        {user?.isAdmin && (
-          <Col md={12} lg={12} sm={12} className="">
-            <StatisticBox title={"created topics"}>
-              <CreatedTopics />
-            </StatisticBox>
-          </Col>
-        )}
         <Col md={6} lg={6} sm={12}>
           <StatisticBox title={"finished quizs"}>
             <FinishedQuizs quizs={user?.finishedLessons} />

@@ -1,9 +1,9 @@
 import React from "react";
+import { Button, Spinner } from "react-bootstrap";
+import { Link } from "react-router-dom";
+import Background from "../../ui/Background";
 import MarkDown from "../../ui/MarkDown";
 import { useGetExplanationById } from "./useGetExplanationById";
-import { Button, Spinner } from "react-bootstrap";
-import Background from "../../ui/Background";
-import { Link } from "react-router-dom";
 
 export default function TheExplanationPage() {
   const { explanation, isLoading } = useGetExplanationById();

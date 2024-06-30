@@ -1,13 +1,11 @@
 export function getTopicsName(exp) {
   if (!exp || exp.length === 0) return [];
-  const TopicNames = exp.map((e) => e.topics.split("-")).flat();
-  let set = new Set(TopicNames);
-
+  const TopicNames = exp.map((e) => ({ name: e.name, size: e.lessons.length }));
   const data = [];
-  set.forEach((e) => {
+  TopicNames.forEach((e) => {
     data.push({
-      name: e,
-      value: TopicNames.filter((x) => x === e).length,
+      name: e.name,
+      value: e.size,
     });
   });
   return data;

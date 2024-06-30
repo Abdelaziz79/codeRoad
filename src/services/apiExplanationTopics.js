@@ -1,140 +1,103 @@
-import { PAGE_SIZE } from "../helper/constans";
-import supabase from "./supabase";
-
+import axios from "axios";
+const backendUrl = "https://localhost:7088/";
 export async function getExplanationTopics() {
-  const { data, error } = await supabase.from("explanation_topics").select("*");
-  if (error) {
-    console.error(error);
-    throw new Error(error.message);
-  }
-  return data;
+  throw new Error("not implemented");
 }
 
 export async function getExplanationTopicById(id) {
-  const { data, error } = await supabase
-    .from("explanation_topics")
-    .select("*")
-    .eq("id", id)
-    .single();
-
-  if (error) {
-    console.error(error);
-    throw new Error(error.message);
-  }
+  const { data } = await axios
+    .get(`${backendUrl}api/Lesson/GetLessonById?id=${id}`)
+    .catch((err) => {
+      console.log(err);
+      throw new Error(err.message);
+    });
   return data;
 }
 
 export async function createExplanation(topic) {
-  const { data, error } = await supabase
-    .from("explanation_topics")
-    .insert([topic])
-    .select();
-  if (error) {
-    console.error(error);
-    throw new Error(error.message);
-  }
+  const { data } = await axios
+    .post(`${backendUrl}api/Lesson/AddLesson`, topic, {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+    })
+    .catch((err) => {
+      console.log(err);
+      throw new Error(err.message);
+    });
+
   return data;
 }
 
 export async function updateExplanation(topic) {
-  const { data, error } = await supabase
-    .from("explanation_topics")
-    .update(topic)
-    .eq("id", topic.id)
-    .select();
-  if (error) {
-    console.error(error);
-    throw new Error(error.message);
-  }
+  console.log(topic);
+  const { data } = await axios
+    .patch(`${backendUrl}api/Lesson/EditLesson?id=${topic.id}`, topic, {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+    })
+    .catch((err) => {
+      console.log(err);
+      throw new Error(err.message);
+    });
   return data;
 }
 
 export async function deleteExplanation(id) {
-  const { data, error } = await supabase
-    .from("explanation_topics")
-    .delete()
-    .eq("id", id);
-  if (error) {
-    console.error(error);
-    throw new Error(error.message);
-  }
+  const { data } = await axios
+    .delete(`${backendUrl}api/Lesson/DeleteLesson?id=${id}`)
+    .catch((err) => {
+      console.log(err);
+      throw new Error(err.message);
+    });
+
   return data;
 }
 
 export async function getUserTopics(userId) {
-  const { data, error } = await supabase
-    .from("explanation_topics")
-    .select("*")
-    .eq("user_id", userId);
-  if (error) {
-    console.error(error);
-    throw new Error(error.message);
-  }
-  return data;
+  throw new Error("not implemented");
 }
 
-export async function getVerifiedTopics({ search, level, page }) {
-  // search , level , page
-
-  let query = supabase
-    .from("explanation_topics")
-    .select("*", { count: "exact" })
-    .eq("is_verified", true);
-
-  if (search) {
-    query = query.ilike("topics", `%${search}%`).ilike("title", `%${search}%`);
-  }
-  if (level !== "all" && level) {
-    query = query.eq("level", level);
-  }
-  if (page) {
-    const from = (page - 1) * PAGE_SIZE;
-    const to = from + PAGE_SIZE - 1;
-    query = query.range(from, to);
-  }
-  query = query.order("created_at", { ascending: false });
-
-  const { data, error, count } = await query;
-
-  if (error) {
-    console.error(error);
-    throw new Error(error.message);
-  }
-  return { data, count };
+export async function getVerifiedTopics() {
+  const { data } = await axios
+    .get(`${backendUrl}api/Lesson/GetListOfLessons`)
+    .catch((err) => {
+      console.log(err);
+      throw new Error(err.message);
+    });
+  console.log(data);
+  return data;
 }
 
 export async function getNotVerifiedTopics() {
-  const { data, error } = await supabase
-    .from("explanation_topics")
-    .select("*")
-    .eq("is_verified", false);
-  if (error) {
-    console.error(error);
-    throw new Error(error.message);
-  }
-  return data;
+  throw new Error("not implemented");
 }
 
 export async function verifyTopic(id) {
-  const { data, error } = await supabase
-    .from("explanation_topics")
-    .update({ is_verified: true })
-    .eq("id", id);
-  if (error) {
-    console.error(error);
-    throw new Error(error.message);
-  }
-  return data;
+  throw new Error("not implemented");
 }
 
 export async function getAllTopicsNames() {
-  const { data, error } = await supabase
-    .from("explanation_topics")
-    .select("topics")
-    .eq("is_verified", true);
-  if (error) {
-    console.error(error);
-    throw new Error(error.message);
-  }
+  throw new Error("not implemented");
+}
+
+export async function addTopicName(topicName) {
+  const { data } = await axios
+    .post(`${backendUrl}api/Topic/AddTopic/${topicName}`)
+    .catch((err) => {
+      console.log(err);
+      throw new Error(err.message);
+    });
+
+  return data;
+}
+
+export async function getTopicsNames() {
+  const { data } = await axios.get(`${backendUrl}api/Topic`).catch((err) => {
+    console.log(err);
+    throw new Error(err.message);
+  });
+
   return data;
 }

@@ -14,7 +14,7 @@ export default function Footer() {
       <p onClick={() => setCount((count) => count + 1)}>
         {count >= 7 ? (
           <a
-            href="https://github.com/Abdelaziz79/Graduation-Project"
+            href="https://github.com/Abdelaziz79/codeRoad"
             target="_blank"
             style={{
               textDecoration: "none",

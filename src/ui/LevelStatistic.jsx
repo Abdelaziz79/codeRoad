@@ -12,9 +12,10 @@ import { getLevelsCount } from "../helper/getLevelsCount";
 import { useVerifiedTopics } from "../features/topics/useVerifiedTopics";
 
 export default function LevelStatistic() {
-  const { isLoading, verifiedTopics } = useVerifiedTopics();
+  const { isLoading, topics } = useVerifiedTopics();
+  console.log(topics);
   if (isLoading) return <Spinner />;
-  const data = getLevelsCount(verifiedTopics);
+  const data = getLevelsCount(topics);
 
   return (
     <ResponsiveContainer width="100%" height={240}>

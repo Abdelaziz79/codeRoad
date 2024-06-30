@@ -1,15 +1,12 @@
-import TableComp from "../features/topics/TableComp";
+import LevelStatistic from "./LevelStatistic";
 import StatisticBox from "./StatisticBox";
 import TopicsStatistic from "./TopicsStatistic";
-import LevelStatistic from "./LevelStatistic";
 
 import { Col, Row, Spinner } from "react-bootstrap";
-import { useNotVerifiedTopics } from "../features/explanation/useNotVerifiedTopics";
 import PostBase from "../features/authentication/PostBase";
 import { useReportedPosts } from "../features/explanation/useReportedPosts";
 
 export default function DashboardPage() {
-  const { isLoading, notVerifiedTopics } = useNotVerifiedTopics();
   const { isLoading: isLoadingReported, reportedPosts } = useReportedPosts();
   const buttons = {
     deletePost: true,
@@ -25,15 +22,6 @@ export default function DashboardPage() {
         <Col md={12} lg={4} sm={12}>
           <StatisticBox title={"Average level"}>
             <LevelStatistic />
-          </StatisticBox>
-        </Col>
-        <Col md={12} lg={12}>
-          <StatisticBox title={"Not verified Topics"}>
-            {isLoading ? (
-              <Spinner />
-            ) : (
-              <TableComp explanations={notVerifiedTopics} />
-            )}
           </StatisticBox>
         </Col>
         <Col>

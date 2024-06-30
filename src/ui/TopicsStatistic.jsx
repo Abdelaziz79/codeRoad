@@ -1,12 +1,11 @@
 import { Spinner } from "react-bootstrap";
 import { Bar, BarChart, ResponsiveContainer, Tooltip, XAxis } from "recharts";
+import { useTopicsNames } from "../features/explanation/useTopicsNames";
 import { getTopicsName } from "../helper/getTopicsName";
-import { useVerifiedTopics } from "../features/topics/useVerifiedTopics";
-
 export default function TopicsStatistic() {
-  const { isLoading, verifiedTopics } = useVerifiedTopics();
+  const { isLoading, topicsNames } = useTopicsNames();
   if (isLoading) return <Spinner />;
-  const data = getTopicsName(verifiedTopics);
+  const data = getTopicsName(topicsNames);
   return (
     <ResponsiveContainer width="100%" height={240}>
       <BarChart data={data} width={150} height={40}>

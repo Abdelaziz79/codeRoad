@@ -1,19 +1,18 @@
-import { Link } from "react-router-dom";
-import { useDarkMode } from "../../context/DarkModeContext";
+import { useQueryClient } from "@tanstack/react-query";
+import { Spinner, Table } from "react-bootstrap";
 import {
   HiBookmarkSlash,
   HiMiniArrowRightCircle,
   HiOutlinePencilSquare,
   HiTrash,
 } from "react-icons/hi2";
-import { Table } from "react-bootstrap";
-import { useUser } from "./useUser";
-import { Spinner } from "react-bootstrap";
-import { useDeletePost } from "../posts/useDeletePost";
-import { updateSavedPosts } from "../../services/apiAuth";
-import { useQueryClient } from "@tanstack/react-query";
-import { useUnReportPost } from "../posts/useUnReportPost";
 import { LuMegaphoneOff } from "react-icons/lu";
+import { Link } from "react-router-dom";
+import { useDarkMode } from "../../context/DarkModeContext";
+import { updateSavedPosts } from "../../services/apiAuth";
+import { useDeletePost } from "../posts/useDeletePost";
+import { useUnReportPost } from "../posts/useUnReportPost";
+import { useUser } from "./useUser";
 
 export default function Base({ items, link, buttons }) {
   const { user, isLoading } = useUser();

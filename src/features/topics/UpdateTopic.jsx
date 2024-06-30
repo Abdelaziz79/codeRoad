@@ -1,19 +1,20 @@
 import ExplanationForm from "../explanation/ExplanationForm";
 
 import { useEffect, useState } from "react";
-import { useGetExplanationById } from "./useGetExplanationById";
 import { Button } from "react-bootstrap";
-import { useUpdateExplanation } from "./useUpdateExplanation";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { useDarkMode } from "../../context/DarkModeContext";
+import { useGetExplanationById } from "./useGetExplanationById";
+import { useUpdateExplanation } from "./useUpdateExplanation";
 
 export default function UpdateTopic() {
   const navigate = useNavigate();
+  const { id } = useParams();
 
   const { isLoading: isLoading1, updateExplanation } = useUpdateExplanation();
 
   const { explanation, isLoading: isLoading2 } = useGetExplanationById();
-
+  console.log(explanation);
   const [exp, setExp] = useState();
   const [title, setTitle] = useState();
   const [level, setLevel] = useState();
@@ -22,9 +23,9 @@ export default function UpdateTopic() {
   useEffect(() => {
     if (!explanation) return;
     setExp(explanation.explanation);
-    setTitle(explanation.title);
+    setTitle(explanation.name);
     setLevel(explanation.level);
-    setTopics(explanation.topics);
+    setTopics(explanation.topic);
   }, [explanation]);
 
   function handleUpdate(e) {
@@ -32,11 +33,11 @@ export default function UpdateTopic() {
     if (!topics || !level || !title || !explanation) return;
 
     const newExplanation = {
-      id: explanation.id,
-      topics,
-      title,
-      level,
-      explanation: exp,
+      id: id,
+      TopicName: topics,
+      Name: title,
+      Level: level,
+      Explanation: exp,
     };
 
     updateExplanation(newExplanation, {

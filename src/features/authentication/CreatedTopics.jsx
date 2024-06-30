@@ -1,7 +1,7 @@
+import { Spinner } from "react-bootstrap";
 import TableBase from "../topics/TableBase";
 import EmptyText from "./EmptyText";
 import { useUserTopics } from "./useUserTopics";
-import { Spinner } from "react-bootstrap";
 
 export default function CreatedTopics() {
   const { userTopics, isLoading } = useUserTopics();

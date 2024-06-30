@@ -1,12 +1,13 @@
 import React from "react";
-import Post from "../features/posts/Post";
-import AddButton from "../features/posts/AddButton";
-import Pagination from "../ui/Pagination";
-import { usePosts } from "../features/posts/usePosts";
 import { Spinner } from "react-bootstrap";
+import AddButton from "../features/posts/AddButton";
+import Post from "../features/posts/Post";
+import { usePosts } from "../features/posts/usePosts";
 
 export default function Posts() {
-  const { posts, isLoading, count } = usePosts();
+  const { posts, isLoading } = usePosts();
+  console.log(posts, isLoading);
+  console.log(posts, isLoading);
   if (isLoading) {
     return <Spinner />;
   }
@@ -16,9 +17,7 @@ export default function Posts() {
         {posts.map((post) => (
           <Post key={post.id} post={post} />
         ))}
-        <div className="my-3">
-          <Pagination count={count} page={2} />
-        </div>
+
         <AddButton name="Post" to="/user/addpost" />
       </div>
     </div>

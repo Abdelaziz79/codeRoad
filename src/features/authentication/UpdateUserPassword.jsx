@@ -1,9 +1,8 @@
 import React, { useState } from "react";
-import Background from "../../ui/Background";
-import { useUpdateUser } from "./useUpdateUser";
 import { Spinner } from "react-bootstrap";
-import { updatePassword } from "../../services/apiAuth";
 import { toast } from "react-toastify";
+import { updatePassword } from "../../services/apiAuth";
+import Background from "../../ui/Background";
 import { useUser } from "./useUser";
 
 export default function UpdateUserPassword() {

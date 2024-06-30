@@ -1,27 +1,24 @@
 import React from "react";
 import { Spinner, Table } from "react-bootstrap";
-import { Link } from "react-router-dom";
-import { useDeleteExplanation } from "./useDeleteExplanation";
 import {
   HiOutlineArrowUpOnSquare,
   HiOutlinePencilSquare,
   HiOutlineTrash,
-  HiOutlineCheckCircle,
 } from "react-icons/hi2";
+import { Link } from "react-router-dom";
 import { useDarkMode } from "../../context/DarkModeContext";
 import { useUser } from "../../features/authentication/useUser";
-import { useVerifyTopic } from "../explanation/useVerifyTopic";
+import { useDeleteExplanation } from "./useDeleteExplanation";
 
 export default function TableComp({ explanations }) {
   const { deleteExplanation, isLoading } = useDeleteExplanation();
   const { darkMode } = useDarkMode();
   const { user, isLoading: isUserLoading } = useUser();
-  const { isLoading: verifiedTopicLoading, verifiedTopic } = useVerifyTopic();
 
   if (isUserLoading) return <Spinner />;
-  const isAdmin = user?.user_metadata?.is_admin;
+  const isAdmin = user?.isAdmin;
 
-  if (explanations.length === 0) return <h1>no explanations</h1>;
+  if (explanations?.length === 0) return <h1>no explanations</h1>;
   return (
     <Table
       striped
@@ -59,7 +56,7 @@ export default function TableComp({ explanations }) {
                   darkMode ? "text-light" : "text-dark"
                 }`}
               >
-                {explanation.title}
+                {explanation.name}
               </Link>
             </td>
             <td className="t-td">
@@ -69,7 +66,7 @@ export default function TableComp({ explanations }) {
                   darkMode ? "text-light" : "text-dark"
                 }`}
               >
-                {explanation.topics?.split("-").join(", ")}
+                {explanation.topic?.split("-").join(", ")}
               </Link>
             </td>
             <td className="t-td">
@@ -96,15 +93,6 @@ export default function TableComp({ explanations }) {
                   >
                     <HiOutlineTrash size={20} />
                   </button>
-                  {!explanation.is_verified && (
-                    <button
-                      className={`btn ${darkMode ? "text-light" : "text-dark"}`}
-                      disabled={verifiedTopicLoading}
-                      onClick={() => verifiedTopic(explanation.id)}
-                    >
-                      <HiOutlineCheckCircle size={20} />
-                    </button>
-                  )}
                   <Link to={`/topics/edit/${explanation.id}`}>
                     <button
                       className={`btn  ${
