@@ -36,7 +36,7 @@ export default function Quiz({
         </div>
       </div>
       <div className="quiz-body ">
-        <h4 className="text-center">{quiz?.question}</h4>
+        <h4 className="text-center">{quiz?.questionContent}</h4>
         <div className="quiz-answers ">
           <ul className="list-unstyled text-center mt-5">
             <Option

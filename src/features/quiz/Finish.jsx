@@ -1,27 +1,20 @@
 import { Button, Spinner } from "react-bootstrap";
-import { Link, useNavigate } from "react-router-dom";
-import { useUser } from "../authentication/useUser";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import { useFinishedQuiz } from "./useFinishedQuiz";
 
 export default function Finish({ numCorrect, quizLength, quiz_id, quiz_name }) {
   const percentage = Math.round((numCorrect / quizLength) * 100);
-  const { user, isLoading } = useUser();
-  const { isLoading: isLoading2, updateUserQuizs } = useFinishedQuiz();
+  const { isLoading, updateUserQuizs } = useFinishedQuiz();
+  const { id } = useParams();
   const navigate = useNavigate();
   function handleSaveQuiz() {
-    const quizs = user?.user_metadata?.quizs?.quizs || [];
-    const newQ = quizs.filter((quiz) => quiz.id !== quiz_id);
-
-    const newQuizs = [
-      ...newQ,
-      { score: percentage, date: Date.now(), id: quiz_id, name: quiz_name },
-    ];
-
-    updateUserQuizs({ quizs: newQuizs });
-    navigate("/");
+    let lessonId = id;
+    let degree = percentage;
+    updateUserQuizs({ lessonId, degree });
+    navigate("/topics");
   }
 
-  if (isLoading || isLoading2) {
+  if (isLoading) {
     return <Spinner />;
   }
   let emoji = "😎";

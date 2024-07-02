@@ -14,6 +14,12 @@ export default function TableBase({ explanations }) {
   const { darkMode } = useDarkMode();
   const { deleteExplanation, isLoading } = useDeleteExplanation();
   if (isLoading) return <Spinner />;
+  if (
+    !explanations ||
+    explanations.length === 0 ||
+    explanations === "there is no Lesson added by this user"
+  )
+    return null;
   return (
     <Table
       striped
@@ -33,10 +39,10 @@ export default function TableBase({ explanations }) {
       </thead>
       <tbody className="">
         {explanations?.map((explanation, index) => (
-          <tr key={explanation.id}>
+          <tr key={explanation.lessonId}>
             <td className="t-td">
               <Link
-                to={`/topics/${explanation.id}`}
+                to={`/topics/${explanation.lessonId}`}
                 className={`text-decoration-none ${
                   darkMode ? "text-light" : "text-dark"
                 }`}
@@ -46,27 +52,27 @@ export default function TableBase({ explanations }) {
             </td>
             <td className="t-td">
               <Link
-                to={`/topics/${explanation.id}`}
+                to={`/topics/${explanation.lessonId}`}
                 className={`text-decoration-none t-title ${
                   darkMode ? "text-light" : "text-dark"
                 }`}
               >
-                {explanation.title}
+                {explanation.name}
               </Link>
             </td>
             <td className="t-td">
               <Link
-                to={`/topics/${explanation.id}`}
+                to={`/topics/${explanation.lessonId}`}
                 className={`text-decoration-none t-topics ${
                   darkMode ? "text-light" : "text-dark"
                 }`}
               >
-                {explanation.topics?.split("-").join(", ")}
+                {explanation.topic}
               </Link>
             </td>
             <td className="t-td">
               <Link
-                to={`/topics/${explanation.id}`}
+                to={`/topics/${explanation.lessonId}`}
                 className={`text-decoration-none ${
                   darkMode ? "text-light" : "text-dark"
                 }`}
@@ -76,7 +82,7 @@ export default function TableBase({ explanations }) {
             </td>
             <td className="t-td">
               <div className="d-flex gap-3 justify-content-center align-items-center">
-                <Link to={`/topics/${explanation.id}`}>
+                <Link to={`/topics/${explanation.lessonId}`}>
                   <button
                     className={`btn ${darkMode ? "text-light" : "text-dark"}`}
                     disabled={isLoading}
@@ -87,11 +93,11 @@ export default function TableBase({ explanations }) {
                 <button
                   className={`btn ${darkMode ? "text-light" : "text-dark"}`}
                   disabled={isLoading}
-                  onClick={() => deleteExplanation(explanation.id)}
+                  onClick={() => deleteExplanation(explanation.lessonId)}
                 >
                   <HiOutlineTrash size={20} />
                 </button>
-                <Link to={`/topics/edit/${explanation.id}`}>
+                <Link to={`/topics/edit/${explanation.lessonId}`}>
                   <button
                     className={`btn  ${darkMode ? "text-light" : "text-dark"}`}
                     disabled={isLoading}

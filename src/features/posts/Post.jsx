@@ -3,48 +3,40 @@ import darkLogo from "../../../public/2.png";
 import Avatar from "../../ui/Avatar";
 import MarkDown from "../../ui/MarkDown";
 
-import { useRef, useState } from "react";
+import { useQueryClient } from "@tanstack/react-query";
+import { useState } from "react";
 import { Card, Col, Row, Spinner } from "react-bootstrap";
 import {
-  HiBookmark,
-  HiMegaphone,
   HiMiniGlobeEuropeAfrica,
   HiOutlineHandThumbDown,
   HiOutlineHandThumbUp,
 } from "react-icons/hi2";
 import { useDarkMode } from "../../context/DarkModeContext";
 import { formatedDate } from "../../helper/helper";
-import { useUser } from "../authentication/useUser";
+import { votePost } from "../../services/apiPosts";
 import Comments from "../comments/Comments";
-import { useIncreasePostDown, useIncreasePostUp } from "./usePostUpDown";
-import { useReportPost } from "./useReportPost";
-import { useSavedPost } from "./useSavedPost";
 
 export default function Post({ post }) {
-  console.log(post);
   const { darkMode } = useDarkMode();
-  const { savePost, isLoading } = useSavedPost();
-  const { user } = useUser();
-  const { isLoading: isLoading3, reportPost } = useReportPost();
   const [showComments, setShowComments] = useState(false);
-  const { increasePostUp, isLoading: isLoading4 } = useIncreasePostUp();
-  const { increasePostDown, isLoading: isLoading5 } = useIncreasePostDown();
+  const [isLoading, setIsLoading] = useState(false);
   const logo = darkMode ? darkLogo : lightLogo;
+  const queryClient = useQueryClient();
 
-  console.log(user);
+  async function handleVoteUp() {
+    setIsLoading(true);
+    await votePost(post.post.postId, 1);
 
-  let addUp = useRef(0);
-  let addDown = useRef(0);
-
-  function handleSvavePost() {
-    const posts = user?.user_metadata?.saved_posts || [];
-    const newPost = posts.filter((p) => p.id !== post.id);
-    const newPosts = [...newPost, post];
-    savePost(newPosts);
+    queryClient.invalidateQueries({ queryKey: ["posts"] });
+    setIsLoading(false);
   }
 
-  function handleReportPost() {
-    reportPost(post.id);
+  async function handleVoteDown() {
+    setIsLoading(true);
+    await votePost(post.post.postId, 0);
+
+    queryClient.invalidateQueries({ queryKey: ["posts"] });
+    setIsLoading(false);
   }
 
   function handleShowComments() {
@@ -69,32 +61,6 @@ export default function Post({ post }) {
                   {formatedDate(post.post?.date)}
                 </span>
               </div>
-              <div className="flex-grow-1 ">
-                <div className="float-end ">
-                  <span className="mx-2">
-                    {isLoading ? (
-                      <Spinner />
-                    ) : (
-                      <HiBookmark
-                        size={20}
-                        className="pointer"
-                        onClick={handleSvavePost}
-                      />
-                    )}
-                  </span>
-                  <span>
-                    {isLoading3 ? (
-                      <Spinner />
-                    ) : (
-                      <HiMegaphone
-                        size={20}
-                        className="pointer"
-                        onClick={handleReportPost}
-                      />
-                    )}
-                  </span>
-                </div>
-              </div>
             </div>
           </Card.Header>
           <Card.Body>
@@ -107,24 +73,28 @@ export default function Post({ post }) {
             <hr />
             <div className="d-flex align-items-center gap-3">
               <span className="d-flex align-items-center gap-2">
-                {isLoading4 ? (
+                {isLoading ? (
                   <Spinner />
                 ) : (
                   <HiOutlineHandThumbUp
                     size={20}
                     className="pointer"
-                    onClick={() => increasePostUp(post.postId)}
+                    onClick={() => handleVoteUp(post.postId, 1)}
                   />
                 )}
-                {post.post?.up + addUp.current}
+                {post.post?.up}
               </span>
               <span className="d-flex align-items-center gap-2">
-                {isLoading5 ? (
+                {isLoading ? (
                   <Spinner />
                 ) : (
-                  <HiOutlineHandThumbDown size={20} className="pointer" />
+                  <HiOutlineHandThumbDown
+                    size={20}
+                    className="pointer"
+                    onClick={() => handleVoteDown(post.postId, 0)}
+                  />
                 )}
-                {post.post?.down + addDown.current}
+                {post.post?.down}
               </span>
               <div className="flex-grow-1">
                 <span
@@ -136,9 +106,7 @@ export default function Post({ post }) {
               </div>
             </div>
 
-            {showComments && (
-              <Comments comments={post.comments} post_id={post.post?.postId} />
-            )}
+            {showComments && <Comments post_id={post.post?.postId} />}
           </Card.Body>
         </Card>
       </Col>

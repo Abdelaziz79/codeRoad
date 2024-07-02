@@ -7,7 +7,6 @@ import { useDarkMode } from "../../context/DarkModeContext";
 
 export default function QuizBase({ quizs }) {
   const { darkMode } = useDarkMode();
-  console.log(quizs);
   let i = 0;
   return (
     <Table
@@ -27,15 +26,15 @@ export default function QuizBase({ quizs }) {
       </thead>
       <tbody>
         {quizs.map((item) => (
-          <tr key={item.id}>
+          <tr key={item.lessonId}>
             <td className="t-td">{++i}</td>
-            <td className="t-td">{item.name}</td>
+            <td className="t-td">{item.lessonName}</td>
             <td className="t-td ">
               <div className="d-flex align-items-center gap-2">
                 <div style={{ width: "60px" }}>
                   <CircularProgressbar
                     strokeWidth={15}
-                    value={item.score}
+                    value={item.degree}
                     styles={{
                       path: {
                         stroke: "#20c997",
@@ -43,12 +42,12 @@ export default function QuizBase({ quizs }) {
                     }}
                   />
                 </div>
-                <span>{item.score}%</span>
+                <span>{item.degree}%</span>
               </div>
             </td>
             <td className="t-td">
               <Link
-                to={`/quiz/${item.id}`}
+                to={`/quiz/${item.lessonId}`}
                 className={`text-decoration-none t-topics`}
               >
                 <HiMiniArrowRightCircle size={30} />

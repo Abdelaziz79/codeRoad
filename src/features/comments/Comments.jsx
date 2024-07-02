@@ -1,38 +1,66 @@
-import Avatar from "../../ui/Avatar";
 import lightLogo from "../../../public/1.png";
 import darkLogo from "../../../public/2.png";
+import Avatar from "../../ui/Avatar";
 
+import { useQueryClient } from "@tanstack/react-query";
+import { useState } from "react";
+import { Spinner } from "react-bootstrap";
+import { HiOutlineHandThumbDown, HiOutlineHandThumbUp } from "react-icons/hi2";
 import { useDarkMode } from "../../context/DarkModeContext";
 import { formatedDate } from "../../helper/helper";
-import CreateComment from "./CreateComment";
-import { HiOutlineHandThumbDown, HiOutlineHandThumbUp } from "react-icons/hi2";
 import { voteComment } from "../../services/apiCommnets";
+import CreateComment from "./CreateComment";
+import { useCommentsOnPost } from "./useCommentsOnPost";
 
-export default function Comments({ comments, post_id }) {
-  console.log(comments);
+export default function Comments({ post_id }) {
+  const { comments, isLoading } = useCommentsOnPost(post_id);
+
+  if (isLoading) {
+    return <Spinner />;
+  }
+  if (comments === "there is no comments")
+    return <CreateComment post_id={post_id} />;
   return (
     <div>
       <hr />
       <CreateComment post_id={post_id} />
       {comments?.map((comment) => (
-        <CommentComp key={comment?.id} comment={comment} />
+        <CommentComp key={comment?.id} comment={comment} postId={post_id} />
       ))}
     </div>
   );
 }
 
-function CommentComp({ comment }) {
+function CommentComp({ comment, postId }) {
+  const [isLoading, setIsLoading] = useState(false);
+
   const { darkMode } = useDarkMode();
   const logo = darkMode ? darkLogo : lightLogo;
+  const queryClient = useQueryClient();
   async function handleUpVote(e) {
+    setIsLoading(true);
+
     e.preventDefault();
-    const data = await voteComment(Number(comment?.id), 1);
-    console.log(data);
+    await voteComment(Number(comment?.id), 1);
+    queryClient.invalidateQueries({ queryKey: ["comments", postId] });
+
+    setIsLoading(false);
   }
-  return (
+
+  async function handleDownVote(e) {
+    setIsLoading(true);
+    e.preventDefault();
+    await voteComment(Number(comment?.id), 0);
+    queryClient.invalidateQueries({ queryKey: ["comments", postId] });
+    setIsLoading(false);
+  }
+
+  return isLoading ? (
+    <Spinner />
+  ) : (
     <div className="d-flex align-items-center gap-3 mt-3 comment">
       <Avatar
-        src={comment?.author_image || logo}
+        src={comment?.userImage || logo}
         alt="avatar"
         width={50}
         height={50}
@@ -57,7 +85,11 @@ function CommentComp({ comment }) {
               {comment?.up}
             </span>
             <span className="d-flex gap-1 align-items-center">
-              <HiOutlineHandThumbDown size={20} className="pointer" />
+              <HiOutlineHandThumbDown
+                size={20}
+                className="pointer"
+                onClick={handleDownVote}
+              />
               {comment?.down}
             </span>
           </div>

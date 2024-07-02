@@ -8,7 +8,7 @@ export function useCreateQuiz() {
     isPending: isLoading,
     data: quizData,
   } = useMutation({
-    mutationFn: create,
+    mutationFn: ({ quiz, name }) => create({ quiz, name }),
     onSuccess: () => {
       toast.success("Quiz created");
     },

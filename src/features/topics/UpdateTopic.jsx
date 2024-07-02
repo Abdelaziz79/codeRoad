@@ -14,7 +14,6 @@ export default function UpdateTopic() {
   const { isLoading: isLoading1, updateExplanation } = useUpdateExplanation();
 
   const { explanation, isLoading: isLoading2 } = useGetExplanationById();
-  console.log(explanation);
   const [exp, setExp] = useState();
   const [title, setTitle] = useState();
   const [level, setLevel] = useState();

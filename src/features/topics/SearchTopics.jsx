@@ -1,36 +1,43 @@
 import React, { useState } from "react";
 import { useSearchParams } from "react-router-dom";
+import { useTopicsNames } from "../explanation/useTopicsNames";
 export default function SearchTopics() {
-  const [search, setSearch] = useState("");
   const [level, setLevel] = useState("all");
+  const { isLoading, topicsNames } = useTopicsNames();
+  const [topicName, setTopicName] = useState("all");
 
-  // Filtering and Pagination
   const [searchParam, setSearchParam] = useSearchParams();
 
   function handleSearch(e) {
     e.preventDefault();
-    if (searchParam.get("page")) {
-      searchParam.set("page", 1);
-    }
-    searchParam.set("search", search);
+
+    searchParam.set("topic", topicName);
     searchParam.set("level", level);
     setSearchParam(searchParam);
+    window.location.reload();
   }
 
+  if (topicsNames === "There is no topics to Represent") return null;
   return (
     <div>
       <form
         className="d-flex gap-2 align-items-center justify-content-center"
         onSubmit={handleSearch}
       >
-        <input
-          type="text"
-          className="form-control"
-          placeholder="Search"
-          value={search}
-          onChange={(e) => setSearch(e.target.value)}
-          style={{ height: "35px" }}
-        />
+        <select
+          disabled={isLoading}
+          id="topic"
+          className="form-select "
+          value={topicName}
+          onChange={(e) => setTopicName(e.target.value)}
+        >
+          <option value="all">All</option>
+          {topicsNames?.map((e) => (
+            <option key={e.name} value={e.name}>
+              {e.name}
+            </option>
+          ))}
+        </select>
         <input
           className="form-check-input"
           type="radio"

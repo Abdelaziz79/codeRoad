@@ -4,12 +4,7 @@ import { useCreateComment } from "./useCreateComment";
 import { Spinner } from "react-bootstrap";
 import { useQueryClient } from "@tanstack/react-query";
 
-export default function CreateComment({
-  post_id,
-  user_id,
-  author_name,
-  author_image,
-}) {
+export default function CreateComment({ post_id }) {
   const { darkMode } = useDarkMode();
   const [comment, setComment] = useState("");
   const { createComment: create, isLoading } = useCreateComment();
@@ -26,7 +21,7 @@ export default function CreateComment({
     create(newComment);
     setComment("");
     queryClient.invalidateQueries({ queryKey: ["comments", post_id] });
-    queryClient.invalidateQueries({ queryKey: ["comments", post_id] });
+    queryClient.invalidateQueries({ queryKey: ["posts"] });
   }
 
   return (

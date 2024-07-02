@@ -3,18 +3,19 @@ import { Button, Col, Row } from "react-bootstrap";
 import { toast } from "react-toastify";
 
 export default function AddQuiz({ questions, setQuestions, handleAddQuiz }) {
-  const [question, setQuestion] = useState("");
+  const [questionContent, setQuestionContent] = useState("");
   const [option1, setOption1] = useState("");
   const [option2, setOption2] = useState("");
   const [option3, setOption3] = useState("");
   const [option4, setOption4] = useState("");
 
-  const [correctOption, setCorrectOption] = useState("option1");
+  const [correctAnswer, setCorrectAnswer] = useState("option1");
 
   function handleSubmit(e) {
     e.preventDefault();
-    if (!question || !option1 || !option2 || !option3 || !option4) return;
-    if (question.length > 150) {
+    if (!questionContent || !option1 || !option2 || !option3 || !option4)
+      return;
+    if (questionContent.length > 150) {
       toast.error("Question must be less than 150 characters");
       return;
     }
@@ -35,20 +36,20 @@ export default function AddQuiz({ questions, setQuestions, handleAddQuiz }) {
       return;
     }
     const newQuestion = {
-      question,
+      questionContent,
       option1,
       option2,
       option3,
       option4,
-      correctOption,
+      correctAnswer,
+      degree: 1,
     };
     setQuestions([...questions, newQuestion]);
-    setQuestion("");
     setOption1("");
     setOption2("");
     setOption3("");
     setOption4("");
-    setCorrectOption("");
+    setCorrectAnswer("");
   }
   return (
     <Row>
@@ -58,8 +59,8 @@ export default function AddQuiz({ questions, setQuestions, handleAddQuiz }) {
         </label>
         <input
           maxLength={150}
-          value={question}
-          onChange={(e) => setQuestion(e.target.value)}
+          value={questionContent}
+          onChange={(e) => setQuestionContent(e.target.value)}
           type="text"
           className="form-control"
           id="question"
@@ -97,8 +98,8 @@ export default function AddQuiz({ questions, setQuestions, handleAddQuiz }) {
               Correct Answer
             </label>
             <select
-              value={correctOption}
-              onChange={(e) => setCorrectOption(e.target.value)}
+              value={correctAnswer}
+              onChange={(e) => setCorrectAnswer(e.target.value)}
               className="form-select"
               aria-label="Default select example"
               id="correct"

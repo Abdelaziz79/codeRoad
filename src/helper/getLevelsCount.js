@@ -1,5 +1,7 @@
 export function getLevelsCount(exp) {
-  if (!exp || exp.length === 0) return [];
+  console.log(exp);
+  if (!exp || exp.length === 0 || exp === "there is no Lessons to represint")
+    return [];
   let numOfEasy = exp
     .map((e) => (e.level === "easy" ? 1 : 0))
     .reduce((a, b) => a + b);

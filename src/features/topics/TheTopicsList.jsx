@@ -10,10 +10,11 @@ import { useVerifiedTopics } from "./useVerifiedTopics";
 export default function TheTopicsList() {
   const { isLoading, topics } = useVerifiedTopics();
   const [table, setTable] = useLocalStorageState(true, "table");
-
   if (isLoading) {
     return <Spinner />;
   }
+  if (topics === "there is no Lessons to represint")
+    return <p>No topics found</p>;
   return (
     <>
       <h3>Topics</h3>
@@ -32,7 +33,7 @@ export default function TheTopicsList() {
       </div>
       {!table ? (
         <div className="d-flex gap-3 flex-wrap">
-          {topics.map((explanation) => (
+          {topics?.map((explanation) => (
             <Box key={explanation.id} item={explanation} />
           ))}
         </div>

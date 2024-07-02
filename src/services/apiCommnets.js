@@ -22,16 +22,21 @@ export async function createComment(comment) {
 }
 
 export async function getCommentsOnPost(postId) {
-  throw new Error("not implemented");
-}
-
-export async function deleteComment(id) {
-  throw new Error("not implemented");
+  const { data } = await axios
+    .get(`${backendUrl}api/Comment/CommentsForPost/${postId}`, {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
+      },
+    })
+    .catch((error) => {
+      console.error(error);
+      throw new Error(error.message);
+    });
+  return data;
 }
 
 export async function voteComment(id, vote) {
   const token = window.localStorage.getItem("token");
-  console.log(token);
   const { data } = await axios
     .post(
       `${backendUrl}api/Comment/Vote?commentId=${id}&vote=${vote}`,
@@ -47,4 +52,8 @@ export async function voteComment(id, vote) {
       throw new Error(error.message);
     });
   return data;
+}
+
+export async function deleteComment(id) {
+  throw new Error("not implemented");
 }

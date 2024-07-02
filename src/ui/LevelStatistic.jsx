@@ -13,7 +13,6 @@ import { useVerifiedTopics } from "../features/topics/useVerifiedTopics";
 
 export default function LevelStatistic() {
   const { isLoading, topics } = useVerifiedTopics();
-  console.log(topics);
   if (isLoading) return <Spinner />;
   const data = getLevelsCount(topics);
 

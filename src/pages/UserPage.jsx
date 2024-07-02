@@ -15,7 +15,6 @@ export default function UserPage() {
   const navigate = useNavigate();
   const url = window.location.pathname;
   const { user } = useUser();
-  console.log(user);
   useEffect(() => {
     if (url === "/user") {
       navigate("/user/account");

@@ -3,21 +3,15 @@ import darkImage from "../../../public/2.png";
 import Avatar from "../../ui/Avatar";
 
 import { useState } from "react";
-import { FaGithub, FaGoogle } from "react-icons/fa6";
 import { Link } from "react-router-dom";
 import { useDarkMode } from "../../context/DarkModeContext";
 import { useLogin } from "./useLogin";
-import { useLoginWithGithub } from "./useLoginWithGithub";
-import { useLoginWithGoogle } from "./useLoginWithGoogle";
 
 export default function Login() {
-  const [email, setEmail] = useState("abdelazizelhadry1@gmail.com");
-  const [password, setPassword] = useState("Pass0987#");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
   const { login, isLoading } = useLogin();
-  const { isLoading: isLoadingWithGithub, login: loginWithGithub } =
-    useLoginWithGithub();
-  const { isLoading: isLoadingWithGoogle, login: loginWithGoogle } =
-    useLoginWithGoogle();
+
   const { darkMode } = useDarkMode();
 
   function handleSubmit(e) {
@@ -34,10 +28,6 @@ export default function Login() {
     );
   }
 
-  function handleLoginWithGithub(e) {
-    e.preventDefault();
-    loginWithGithub();
-  }
   return (
     <div className={`${darkMode ? "bg-card-dark" : ""} min-vh-100 `}>
       <div className=" container d-flex justify-content-center align-items-center">
@@ -95,27 +85,7 @@ export default function Login() {
               >
                 Login
               </button>
-              <button
-                type="submit"
-                className="btn btn-success mt-3"
-                onClick={loginWithGoogle}
-                disabled={isLoadingWithGoogle}
-              >
-                <span className="d-flex align-items-center justify-content-center gap-2">
-                  <FaGoogle size={20} /> Login with Google
-                </span>
-              </button>
 
-              <button
-                type="submit"
-                className="btn btn-success mt-3"
-                onClick={handleLoginWithGithub}
-                disabled={isLoadingWithGithub}
-              >
-                <span className="d-flex align-items-center justify-content-center gap-2">
-                  <FaGithub size={20} /> Login with Github
-                </span>
-              </button>
               <Link
                 className="btn btn-primary mt-3 "
                 to={"/register"}

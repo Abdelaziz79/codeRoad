@@ -14,13 +14,12 @@ export default function QuizPage() {
   if (isLoading) {
     return <Spinner />;
   }
-
-  const quizLength = quiz.quiz.length;
+  const quizLength = quiz[0].questions.length;
 
   function handleClick(e) {
     e.preventDefault();
     const value = e.target.value;
-    const correctAnswer = quiz.quiz[index].correctOption;
+    const correctAnswer = quiz[0].questions[index].correctAnswer;
 
     if (value === correctAnswer) {
       setNumCorrect((c) => c + 1);
@@ -42,13 +41,13 @@ export default function QuizPage() {
         <Finish
           numCorrect={numCorrect}
           quizLength={quizLength}
-          quiz_id={quiz.id}
+          quiz_id={quiz.lessonId}
           quiz_name={quiz.name}
         />
       ) : (
         <>
           <Quiz
-            quiz={quiz.quiz[index]}
+            quiz={quiz[0].questions[index]}
             handleClick={handleClick}
             index={index}
             quizLength={quizLength}

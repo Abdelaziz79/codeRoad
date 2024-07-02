@@ -2,14 +2,6 @@ import axios from "axios";
 
 const backendUrl = "https://localhost:7088/";
 
-export async function loginWithGithub() {
-  throw new Error("not implemented");
-}
-
-export async function loginWithGoogle() {
-  throw new Error("not implemented");
-}
-
 export async function singup({
   firstName,
   lastName,
@@ -65,10 +57,6 @@ export async function logout() {
   window.localStorage.removeItem("user");
 }
 
-export async function updateCurrentUser(user) {
-  throw new Error("not implemented");
-}
-
 export async function updateUserName(username) {
   const token = window.localStorage.getItem("token");
 
@@ -102,6 +90,7 @@ export async function updatePassword({ oldPassword, newPassword, email }) {
       {
         headers: {
           "Content-Type": "application/json",
+          Authorization: `Bearer ${window.localStorage.getItem("token")}`,
         },
       }
     )
@@ -130,7 +119,7 @@ export async function updateUserImage(image) {
   return data;
 }
 
-export async function deleteUser(email) {
+export async function deleteUser() {
   const token = window.localStorage.getItem("token");
   const { data } = await axios
     .delete(`${backendUrl}api/Auth/DeleteUser`, {
@@ -139,17 +128,127 @@ export async function deleteUser(email) {
       },
     })
     .catch((error) => {
-      console.log(error);
       throw new Error(error.message);
     });
 
   return data;
 }
 
-export async function updateUserQuizs(quizs) {
+export async function updateUserQuizs({ lessonId, degree }) {
+  const { data } = await axios
+    .post(
+      `${backendUrl}api/User/FinishNewLesson?lessonId=${Number(
+        lessonId
+      )}&degree=${Number(degree)}`,
+      {},
+      {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+      }
+    )
+    .catch((err) => {
+      throw new Error(err.message);
+    });
+
+  return data;
+}
+
+export async function getUserImage(id) {
+  const { data } = await axios
+    .get(`${backendUrl}api/User/GetUserImage?userId=${id}`, {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
+      },
+    })
+    .catch((error) => {
+      console.error(error);
+      throw new Error(error.message);
+    });
+  return data;
+}
+
+export async function getAllUsers() {
+  const { data } = await axios
+    .get(`${backendUrl}api/Auth/GetAllUsers`, {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
+      },
+    })
+    .catch((error) => {
+      console.error(error);
+      throw new Error(error.message);
+    });
+  return data;
+}
+
+export async function getUserQuizs() {
+  const { data } = await axios
+    .get(`${backendUrl}api/User/GetFinishedLessonsForSpecificUser`, {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
+      },
+    })
+    .catch((err) => {
+      throw new Error(err.message);
+    });
+  return data;
+}
+
+export async function addAdmin(userEmail) {
+  const { data } = await axios
+    .post(
+      `${backendUrl}api/Auth/AddUserToRole`,
+      {
+        userEmail,
+        role: "Admin",
+      },
+      {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+          "Content-Type": "application/json",
+        },
+      }
+    )
+    .catch((err) => {
+      throw new Error(err.message);
+    });
+  return data;
+}
+
+export async function deleteUserByAdmin(userEmail) {
+  const token = window.localStorage.getItem("token");
+  const { data } = await axios
+    .delete(`${backendUrl}api/Auth/AdminDeleteUser?userEmail=${userEmail}`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    })
+    .catch((err) => {
+      throw new Error(err.message);
+    });
+  return data;
+}
+
+export async function getUserActiveDays() {
+  const { data } = await axios
+    .get(`${backendUrl}api/User/getUSerActiveDays`, {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
+      },
+    })
+    .catch((err) => {
+      throw new Error(err.message);
+    });
+  return data;
+}
+export async function loginWithGithub() {
   throw new Error("not implemented");
 }
 
+export async function loginWithGoogle() {
+  throw new Error("not implemented");
+}
 export async function updateSavedPosts(savedPosts) {
   throw new Error("not implemented");
 }
@@ -161,12 +260,7 @@ export async function updateUserLikes(likes) {
 export async function updateUserDislikes(dislikes) {
   throw new Error("not implemented");
 }
-export async function getUserImage(id) {
-  const { data } = await axios
-    .get(`${backendUrl}api/User/GetUserImage?userId=${id}`)
-    .catch((error) => {
-      console.error(error);
-      throw new Error(error.message);
-    });
-  return data;
+
+export async function updateCurrentUser(user) {
+  throw new Error("not implemented");
 }

@@ -3,11 +3,10 @@ import darkImage from "../../../public/2.png";
 import Avatar from "../../ui/Avatar";
 
 import { useState } from "react";
-import { FaGithub, FaGoogle } from "react-icons/fa6";
 import { useDarkMode } from "../../context/DarkModeContext";
-import { useLoginWithGithub } from "./useLoginWithGithub";
-import { useLoginWithGoogle } from "./useLoginWithGoogle";
 import { useSignup } from "./useSignup";
+import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 
 export default function Register() {
   const [email, setEmail] = useState("");
@@ -16,34 +15,36 @@ export default function Register() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
-
+  const navigate = useNavigate();
   const { darkMode } = useDarkMode();
-
-  const { isLoading: isLoadingWithGithub, login } = useLoginWithGithub();
-  const { isLoading: isLoadingWithGoogle, login: loginWithGoogle } =
-    useLoginWithGoogle();
 
   const { isLoading, signup } = useSignup();
 
-  function handleLoginWithGithub(e) {
-    e.preventDefault();
-    login();
-  }
-
-  function handleLoginWithGoogle(e) {
-    e.preventDefault();
-    loginWithGoogle();
-  }
-
   function handleSubmit(e) {
     e.preventDefault();
+    const hasUpperCase = /[A-Z]/;
+    const hasLowerCase = /[a-z]/;
+    const hasNumber = /[0-9]/;
+    const hasSpecialChar = /[!@#$%^&*(),.?":{}| <>]/;
     if (!email || !firstName || !lastName || !username || !password) return;
     if (password !== confirmPassword) {
-      alert("Passwords do not match");
+      toast.error("Passwords do not match");
       return;
     }
     if (password.length < 8) {
-      alert("Password must be at least 8 characters long");
+      toast.error("Password must be at least 8 characters long");
+      return;
+    }
+    if (!hasUpperCase.test(password) || !hasLowerCase.test(password)) {
+      toast.error(
+        "Password must contain at least one uppercase letter and one lowercase letter"
+      );
+      return;
+    }
+    if (!hasNumber.test(password) || !hasSpecialChar.test(password)) {
+      toast.error(
+        "Password must contain at least one number and one special character"
+      );
       return;
     }
     try {
@@ -51,7 +52,7 @@ export default function Register() {
     } catch (error) {
       console.error(error);
     }
-    navigator("/login");
+    navigate("/login");
   }
 
   return (
@@ -161,28 +162,6 @@ export default function Register() {
               </span>
             </button>
           </form>
-          <div className="d-flex flex-column gap-3 h-100 justify-content-center">
-            <div className="d-flex  gap-2">
-              <button
-                className="btn btn-success mt-3"
-                onClick={handleLoginWithGoogle}
-                disabled={isLoadingWithGoogle}
-              >
-                <span className="d-flex align-items-center justify-content-center gap-2">
-                  <FaGoogle size={20} /> Register with Google
-                </span>
-              </button>
-              <button
-                className="btn btn-success mt-3"
-                onClick={handleLoginWithGithub}
-                disabled={isLoadingWithGithub}
-              >
-                <span className="d-flex align-items-center justify-content-center gap-2">
-                  <FaGithub size={20} /> Register with Github
-                </span>
-              </button>
-            </div>
-          </div>
         </div>
       </div>
     </div>

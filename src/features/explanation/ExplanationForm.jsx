@@ -21,7 +21,9 @@ export default function ExplanationForm({
 }) {
   const { darkMode } = useDarkMode();
   const { isLoading: l2, topicsNames } = useTopicsNames();
+
   if (l2) return <Spinner />;
+  if (topicsNames === "There is no topics to Represent") return null;
   return (
     <Row>
       <Col sm={12} md={12} lg={6}>
@@ -38,6 +40,9 @@ export default function ExplanationForm({
                 value={topicName}
                 onChange={(e) => setTopicName(e.target.value)}
               >
+                <option value="" disabled>
+                  ---
+                </option>
                 {topicsNames.map((e) => (
                   <option key={e.name} value={e.name}>
                     {e.name}

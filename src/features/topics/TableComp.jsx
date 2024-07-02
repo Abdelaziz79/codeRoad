@@ -17,8 +17,11 @@ export default function TableComp({ explanations }) {
 
   if (isUserLoading) return <Spinner />;
   const isAdmin = user?.isAdmin;
-
-  if (explanations?.length === 0) return <h1>no explanations</h1>;
+  if (
+    explanations?.length === 0 ||
+    explanations === "there is no Lessons to represint"
+  )
+    return <h1>no explanations</h1>;
   return (
     <Table
       striped

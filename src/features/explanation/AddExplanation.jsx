@@ -1,20 +1,15 @@
 import AddQuiz from "./AddQuiz";
-import useCreateExplanation from "./useCreateExplanation";
 import ExplanationForm from "./ExplanationForm";
+import useCreateExplanation from "./useCreateExplanation";
 
 import { useState } from "react";
 import { Button, Col, Row, Spinner } from "react-bootstrap";
-import { usePreviewTopic } from "../../context/PreviewTopicContext";
-import { useDarkMode } from "../../context/DarkModeContext";
-import { useCreateQuiz } from "../quiz/useCreateQuiz";
-import { useNavigate } from "react-router-dom";
-import { useUser } from "../authentication/useUser";
 import { toast } from "react-toastify";
+import { useDarkMode } from "../../context/DarkModeContext";
 import { addTopicName } from "../../services/apiExplanationTopics";
+import { useCreateQuiz } from "../quiz/useCreateQuiz";
 
 export default function AddExplanation() {
-  const { setNewTopic } = usePreviewTopic();
-
   const [quiz, setQuiz] = useState([]);
 
   const [explanation, setExplanation] = useState("");
@@ -26,7 +21,6 @@ export default function AddExplanation() {
   const [topic, setTopic] = useState("");
   const { createExplanation, isLoading } = useCreateExplanation();
   const { createQuiz, isLoading2, quizData } = useCreateQuiz();
-  const navigate = useNavigate();
   const { darkMode } = useDarkMode();
 
   if (isLoading || isLoading2) return <Spinner />;
@@ -40,7 +34,6 @@ export default function AddExplanation() {
 
   function handleSubmit(e) {
     e.preventDefault();
-
     if (!topicName || !level || !title || !explanation) return;
     if (title.length > 50) {
       toast.error("Title must be less than 50 characters");
@@ -54,7 +47,6 @@ export default function AddExplanation() {
       toast.error("Explanation must be less than 15000 characters");
       return;
     }
-    console.log(topicName.toLowerCase());
     const newExplanation = {
       TopicName: topicName.toLowerCase(),
       Name: title,
@@ -64,22 +56,12 @@ export default function AddExplanation() {
     if (quizData) {
       newExplanation["quiz_id"] = quizData[0]["id"];
     }
-    createExplanation(newExplanation, {
-      onSuccess: () => {
-        setTopicName("");
-        setTitle("");
-        setExplanation("");
-        setLevel("easy");
-        setShowQuiz(false);
-        setQuiz([]);
-      },
-    });
+    createExplanation(newExplanation);
   }
 
   async function addTopic(e) {
     e.preventDefault();
-    const data = await addTopicName(topic);
-    console.log(data);
+    await addTopicName(topic);
   }
 
   return (
@@ -127,6 +109,15 @@ export default function AddExplanation() {
             setLevel={setLevel}
           />
           <Col>
+            <div className="mt-3">
+              <Button
+                className=" btn-success "
+                disabled={isLoading || isLoading2}
+                onClick={handleSubmit}
+              >
+                Add
+              </Button>
+            </div>
             {title && (
               <div>
                 <div className="">
@@ -151,15 +142,6 @@ export default function AddExplanation() {
                 </div>
               </div>
             )}
-            <div className="mt-3">
-              <Button
-                className=" btn-success "
-                disabled={isLoading || isLoading2}
-                onClick={handleSubmit}
-              >
-                Add
-              </Button>
-            </div>
           </Col>
         </Row>
       </div>

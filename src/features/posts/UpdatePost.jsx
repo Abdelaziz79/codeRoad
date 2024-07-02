@@ -18,7 +18,7 @@ export default function UpdatePost() {
 
   useEffect(() => {
     if (!post) return;
-    setContent(post.content);
+    setContent(post.post.content);
   }, [post]);
 
   function handleUpdate(e) {
@@ -26,7 +26,7 @@ export default function UpdatePost() {
     if (!content) return;
 
     const newPost = {
-      id: post.postId,
+      id: post.post.postId,
       UserId: user.userInfo.id,
       Content: content,
     };
