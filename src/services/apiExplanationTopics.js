@@ -1,5 +1,6 @@
 import axios from "axios";
-const backendUrl = "https://localhost:7088/";
+import { backendUrl } from "./backend";
+
 export async function getExplanationTopics() {
   throw new Error("not implemented");
 }
@@ -32,14 +33,6 @@ export async function createExplanation(topic) {
 }
 
 export async function updateExplanation(topic) {
-  console.log(topic);
-
-  // const formData = new FormData();
-  // formData.append("Name", topic.Name);
-  // formData.append("Level", topic.Level);
-  // formData.append("TopicName", topic.TopicName);
-  // formData.append("Explanation", topic.Explanation);
-
   const { data } = await axios
     .patch(`${backendUrl}api/Lesson/EditLesson/${topic.id}`, topic, {
       headers: {

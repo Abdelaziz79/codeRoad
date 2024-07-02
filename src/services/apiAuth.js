@@ -1,6 +1,5 @@
 import axios from "axios";
-
-const backendUrl = "https://localhost:7088/";
+import { backendUrl } from "./backend";
 
 export async function singup({
   firstName,
@@ -26,7 +25,7 @@ export async function singup({
       }
     )
     .catch((error) => {
-      console.error(error);
+      throw new Error(error.message);
     });
   return data;
 }

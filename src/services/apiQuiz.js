@@ -1,5 +1,5 @@
 import axios from "axios";
-const backendUrl = "https://localhost:7088/";
+import { backendUrl } from "./backend";
 
 export async function getQuiz(id) {
   const allQuizes = await axios

@@ -1,6 +1,5 @@
 import axios from "axios";
-
-const backendUrl = "https://localhost:7088/";
+import { backendUrl } from "./backend";
 
 export async function createComment(comment) {
   const token = window.localStorage.getItem("token");
