@@ -22,14 +22,17 @@ export default function UpdateUserPassword() {
       toast.error(
         "Password must contain at least one uppercase letter, one number, and one special character"
       );
+      setIsLoading(false);
       return;
     }
     if (password !== confirmPassword) {
       toast.error("Passwords do not match");
+      setIsLoading(false);
       return;
     }
     if (password.length < 8) {
       toast.error("Password must be at least 8 characters long");
+      setIsLoading(false);
       return;
     }
     await updatePassword({

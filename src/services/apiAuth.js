@@ -31,10 +31,14 @@ export async function singup({
 }
 
 export async function login({ email, password }) {
-  const { data } = await axios.post(`${backendUrl}api/Auth/Login `, {
-    email,
-    password,
-  });
+  const { data } = await axios
+    .post(`${backendUrl}api/Auth/Login `, {
+      email,
+      password,
+    })
+    .catch((error) => {
+      throw new Error(error.message);
+    });
   window.localStorage.setItem("token", data.token);
   window.localStorage.setItem("user", JSON.stringify(data.user));
   return data;
@@ -43,11 +47,15 @@ export async function login({ email, password }) {
 export async function getCurrentUser() {
   const token = window.localStorage.getItem("token");
   if (!token) return null;
-  const { data } = await axios.get(`${backendUrl}api/Auth/GetCurrentUser`, {
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
-  });
+  const { data } = await axios
+    .get(`${backendUrl}api/Auth/GetCurrentUser`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    })
+    .catch((error) => {
+      throw new Error(error.message);
+    });
   return data;
 }
 
@@ -70,7 +78,6 @@ export async function updateUserName(username) {
       }
     )
     .catch((error) => {
-      console.error(error);
       throw new Error(error.message);
     });
   return data;
@@ -94,7 +101,6 @@ export async function updatePassword({ oldPassword, newPassword, email }) {
       }
     )
     .catch((error) => {
-      console.error(error);
       throw new Error(error.message);
     });
   return data;
@@ -112,7 +118,6 @@ export async function updateUserImage(image) {
       },
     })
     .catch((error) => {
-      console.error(error);
       throw new Error(error.message);
     });
   return data;

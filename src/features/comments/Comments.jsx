@@ -19,7 +19,11 @@ export default function Comments({ post_id }) {
     return <Spinner />;
   }
   if (comments === "there is no comments")
-    return <CreateComment post_id={post_id} />;
+    return (
+      <div className="mt-3">
+        <CreateComment post_id={post_id} />
+      </div>
+    );
   return (
     <div>
       <hr />

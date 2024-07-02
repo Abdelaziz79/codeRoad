@@ -20,8 +20,22 @@ export default function CreateComment({ post_id }) {
 
     create(newComment);
     setComment("");
-    queryClient.invalidateQueries({ queryKey: ["comments", post_id] });
     queryClient.invalidateQueries({ queryKey: ["posts"] });
+    queryClient.invalidateQueries({ queryKey: ["posts"] });
+    queryClient.invalidateQueries({ queryKey: ["posts"] });
+    queryClient.invalidateQueries({ queryKey: ["posts"] });
+    queryClient.invalidateQueries({ queryKey: ["posts"] });
+    queryClient.invalidateQueries({ queryKey: ["posts"] });
+    queryClient.invalidateQueries({ queryKey: ["posts"] });
+    queryClient.invalidateQueries({ queryKey: ["comments", post_id] });
+    queryClient.invalidateQueries({ queryKey: ["comments", post_id] });
+    queryClient.invalidateQueries({ queryKey: ["comments", post_id] });
+    queryClient.invalidateQueries({ queryKey: ["comments", post_id] });
+    queryClient.invalidateQueries({ queryKey: ["comments", post_id] });
+    queryClient.invalidateQueries({ queryKey: ["comments", post_id] });
+    queryClient.invalidateQueries({ queryKey: ["comments", post_id] });
+    queryClient.invalidateQueries({ queryKey: ["post", post_id] });
+    queryClient.invalidateQueries({ queryKey: ["post", post_id] });
   }
 
   return (
