@@ -42,7 +42,8 @@ export async function login({ email, password }) {
     });
   window.localStorage.setItem("token", data.token);
   window.localStorage.setItem("user", JSON.stringify(data.user));
-  toast.success("login successful");
+  if (data.user !== null && data.user !== undefined)
+    toast.success("login successful");
   return data;
 }
 

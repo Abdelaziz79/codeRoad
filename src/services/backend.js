@@ -1,1 +1,1 @@
-export const backendUrl = "https://localhost:7088/";
+export const backendUrl = "http://coderoad.runasp.net/";
