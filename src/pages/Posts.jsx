@@ -13,7 +13,7 @@ export default function Posts() {
     <div>
       <div className="d-flex flex-column gap-3">
         {posts.map((post) => (
-          <Post key={post.post.id} post={post} />
+          <Post key={post.post.postId} post={post} />
         ))}
 
         <AddButton name="Post" to="/user/addpost" />

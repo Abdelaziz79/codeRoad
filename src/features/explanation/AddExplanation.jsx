@@ -62,6 +62,7 @@ export default function AddExplanation() {
   async function addTopic(e) {
     e.preventDefault();
     await addTopicName(topic);
+    window.location.reload();
   }
 
   return (

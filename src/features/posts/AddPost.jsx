@@ -36,7 +36,7 @@ export default function AddPost() {
       className={` ${darkMode ? "form-style-dark" : "form-style"} p-3 rounded `}
     >
       <h1 className="mb-4 ">Add new post</h1>
-      <form onSubmit={handleSubmit}>
+      <div>
         <PostForm
           content={content}
           setContent={setContent}
@@ -50,7 +50,7 @@ export default function AddPost() {
         >
           Add new post
         </button>
-      </form>
+      </div>
     </div>
   );
 }

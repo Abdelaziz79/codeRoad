@@ -51,7 +51,6 @@ function UsersTable() {
     queryClient.invalidateQueries(["users"]);
     setIsLoading1(false);
   }
-
   return isLoading || isLoading1 ? (
     <Spinner />
   ) : (
@@ -73,7 +72,7 @@ function UsersTable() {
       </thead>
       <tbody>
         {users?.map((item, i) => (
-          <tr key={item.id}>
+          <tr key={i}>
             <td className="t-td">{++i}</td>
             <td className="t-td">{item.userName}</td>
             <td className="t-td ">{item.email}</td>

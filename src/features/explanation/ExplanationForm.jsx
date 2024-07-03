@@ -27,7 +27,7 @@ export default function ExplanationForm({
   return (
     <Row>
       <Col sm={12} md={12} lg={6}>
-        <form>
+        <div>
           <Row className="h-25">
             <Col>
               <label htmlFor="topic" className="form-label fs-4">
@@ -112,7 +112,7 @@ export default function ExplanationForm({
               />
             </Col>
           </Row>
-        </form>
+        </div>
       </Col>
 
       <Col className="overflow-auto" sm={12} md={12} lg={6}>
