@@ -65,7 +65,6 @@ function UsersTable() {
           <th></th>
           <th>User name</th>
           <th>Email</th>
-          <th>Is admin</th>
           <th></th>
         </tr>
       </thead>
@@ -75,7 +74,6 @@ function UsersTable() {
             <td className="t-td">{++i}</td>
             <td className="t-td">{item.userName}</td>
             <td className="t-td ">{item.email}</td>
-            <td className="t-td">{item.isAdmin ? "Yes" : "No"}</td>
             <td className="t-td">
               {item.isAdmin ? null : (
                 <div className="d-flex gap-1">

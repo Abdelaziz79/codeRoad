@@ -1,5 +1,6 @@
 import axios from "axios";
 import { backendUrl } from "./backend";
+import { toast } from "react-toastify";
 
 export async function singup({
   firstName,
@@ -41,6 +42,7 @@ export async function login({ email, password }) {
     });
   window.localStorage.setItem("token", data.token);
   window.localStorage.setItem("user", JSON.stringify(data.user));
+  toast.success("login successful");
   return data;
 }
 
@@ -57,7 +59,6 @@ export async function getCurrentUser() {
       .catch((error) => {
         throw new Error(error.message);
       });
-
     return data;
   } catch (err) {
     console.error(err);

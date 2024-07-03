@@ -1,7 +1,7 @@
 import { useMutation } from "@tanstack/react-query";
-import { login as loginApi } from "../../services/apiAuth";
-import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
+import { login as loginApi } from "../../services/apiAuth";
 
 export function useLogin() {
   const navigate = useNavigate();
@@ -16,5 +16,6 @@ export function useLogin() {
       throw new Error(error.message);
     },
   });
+
   return { login, isLoading };
 }
