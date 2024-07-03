@@ -19,11 +19,12 @@ export default function AddExplanation() {
 
   const [showQuiz, setShowQuiz] = useState(false);
   const [topic, setTopic] = useState("");
-  const { createExplanation, isLoading } = useCreateExplanation();
+  const { createExplanation, isLoading: isLoading3 } = useCreateExplanation();
   const { createQuiz, isLoading2, quizData } = useCreateQuiz();
   const { darkMode } = useDarkMode();
+  const [isLoading, setIsLoading] = useState(false);
 
-  if (isLoading || isLoading2) return <Spinner />;
+  if (isLoading3 || isLoading2) return <Spinner />;
   const show = showQuiz && !quizData;
 
   function handleAddQuiz() {
@@ -60,9 +61,13 @@ export default function AddExplanation() {
   }
 
   async function addTopic(e) {
+    setIsLoading(true);
     e.preventDefault();
     await addTopicName(topic);
+    toast.success("Topic added successfully");
     window.location.reload();
+    setTopic("");
+    setIsLoading(false);
   }
 
   return (
@@ -80,6 +85,8 @@ export default function AddExplanation() {
           </Col>
           <Col className="col-7">
             <input
+              disabled={isLoading}
+              placeholder="Enter topic name"
               value={topic}
               onChange={(e) => setTopic(e.target.value)}
               type="text"
@@ -89,7 +96,9 @@ export default function AddExplanation() {
             />
           </Col>
           <Col>
-            <Button onClick={addTopic}>add topic</Button>
+            <Button onClick={addTopic} disabled={isLoading}>
+              {isLoading ? <Spinner /> : "add topic"}
+            </Button>
           </Col>
         </Row>
       </div>
@@ -113,7 +122,7 @@ export default function AddExplanation() {
             <div className="mt-3">
               <Button
                 className=" btn-success "
-                disabled={isLoading || isLoading2}
+                disabled={isLoading3 || isLoading2}
                 onClick={handleSubmit}
               >
                 Add
@@ -124,7 +133,7 @@ export default function AddExplanation() {
                 <div className="">
                   {!quizData && (
                     <Button
-                      disabled={isLoading || isLoading2}
+                      disabled={isLoading3 || isLoading2}
                       className=" btn-success mt-3"
                       onClick={() => setShowQuiz((show) => !show)}
                     >

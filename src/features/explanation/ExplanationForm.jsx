@@ -23,7 +23,8 @@ export default function ExplanationForm({
   const { isLoading: l2, topicsNames } = useTopicsNames();
 
   if (l2) return <Spinner />;
-  if (topicsNames === "There is no topics to Represent") return null;
+  if (topicsNames === "There is no topics to Represent")
+    return <h3>you have to add topics first</h3>;
   return (
     <Row>
       <Col sm={12} md={12} lg={6}>
