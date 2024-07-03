@@ -2,12 +2,14 @@ import { Spinner } from "react-bootstrap";
 import { useUser } from "../features/authentication/useUser";
 import { useNavigate } from "react-router-dom";
 import { useEffect } from "react";
+import { toast } from "react-toastify";
 
 export default function ProtectedRoute({ children }) {
   const { isLoading, isAuthenticated } = useUser();
   const navigate = useNavigate();
   useEffect(() => {
     if (!isAuthenticated && !isLoading) {
+      toast.error("failed to login provided email or password are incorrect");
       navigate("/login");
     }
   }, [navigate, isAuthenticated, isLoading]);
@@ -19,5 +21,7 @@ export default function ProtectedRoute({ children }) {
       </div>
     );
 
-  if (isAuthenticated) return children;
+  if (isAuthenticated) {
+    return children;
+  }
 }

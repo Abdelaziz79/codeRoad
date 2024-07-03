@@ -47,16 +47,21 @@ export async function login({ email, password }) {
 export async function getCurrentUser() {
   const token = window.localStorage.getItem("token");
   if (!token) return null;
-  const { data } = await axios
-    .get(`${backendUrl}api/Auth/GetCurrentUser`, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    })
-    .catch((error) => {
-      throw new Error(error.message);
-    });
-  return data;
+  try {
+    const { data } = await axios
+      .get(`${backendUrl}api/Auth/GetCurrentUser`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
+      .catch((error) => {
+        throw new Error(error.message);
+      });
+
+    return data;
+  } catch (err) {
+    console.error(err);
+  }
 }
 
 export async function logout() {

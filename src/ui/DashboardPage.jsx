@@ -38,7 +38,6 @@ function UsersTable() {
   const { darkMode } = useDarkMode();
   const [isLoading1, setIsLoading1] = useState(false);
   const queryClient = useQueryClient();
-
   async function makeAdmin(email) {
     setIsLoading1(true);
     await addAdmin(email);
@@ -64,9 +63,9 @@ function UsersTable() {
       <thead>
         <tr>
           <th></th>
-          <th>user name</th>
-          <th>email</th>
-          <th></th>
+          <th>User name</th>
+          <th>Email</th>
+          <th>Is admin</th>
           <th></th>
         </tr>
       </thead>
@@ -76,24 +75,31 @@ function UsersTable() {
             <td className="t-td">{++i}</td>
             <td className="t-td">{item.userName}</td>
             <td className="t-td ">{item.email}</td>
+            <td className="t-td">{item.isAdmin ? "Yes" : "No"}</td>
             <td className="t-td">
-              <Button>
-                <div
-                  className="d-flex align-items-center gap-2"
-                  onClick={() => makeAdmin(item.email)}
-                >
-                  <HiUserPlus size={20} />
-                  add admin
+              {item.isAdmin ? null : (
+                <div className="d-flex gap-1">
+                  <Button size="sm">
+                    <div
+                      className="d-flex align-items-center gap-2"
+                      onClick={() => makeAdmin(item.email)}
+                    >
+                      <HiUserPlus size={20} />
+                      add admin
+                    </div>
+                  </Button>
+                  <Button
+                    size="sm"
+                    variant="danger"
+                    onClick={() => deleteUser(item.email)}
+                  >
+                    <div className="d-flex align-items-center gap-2">
+                      <HiUserMinus size={20} />
+                      delete
+                    </div>
+                  </Button>
                 </div>
-              </Button>
-            </td>
-            <td className="t-td">
-              <Button variant="danger" onClick={() => deleteUser(item.email)}>
-                <div className="d-flex align-items-center gap-2">
-                  <HiUserMinus size={20} />
-                  delete
-                </div>
-              </Button>
+              )}
             </td>
           </tr>
         ))}

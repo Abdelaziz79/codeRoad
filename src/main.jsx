@@ -8,14 +8,12 @@ import { ErrorBoundary } from "react-error-boundary";
 import FallBackComp from "./ui/FallBackComp.jsx";
 
 ReactDOM.createRoot(document.getElementById("root")).render(
-  <React.StrictMode>
-    <DarkModeProvider>
-      <ErrorBoundary
-        FallbackComponent={FallBackComp}
-        onReset={() => window.location.replace("/")}
-      >
-        <App />
-      </ErrorBoundary>
-    </DarkModeProvider>
-  </React.StrictMode>
+  <DarkModeProvider>
+    <ErrorBoundary
+      FallbackComponent={FallBackComp}
+      onReset={() => window.location.replace("/")}
+    >
+      <App />
+    </ErrorBoundary>
+  </DarkModeProvider>
 );

@@ -3,7 +3,6 @@ import { Link } from "react-router-dom";
 import { useDarkMode } from "../context/DarkModeContext";
 
 export default function Box({ item }) {
-  console.log(item);
   const { darkMode } = useDarkMode();
   return (
     <Link to={`/topics/${item.id}`} className="text-decoration-none ">
