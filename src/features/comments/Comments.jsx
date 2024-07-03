@@ -58,7 +58,6 @@ function CommentComp({ comment, postId }) {
     queryClient.invalidateQueries({ queryKey: ["comments", postId] });
     setIsLoading(false);
   }
-
   return isLoading ? (
     <Spinner />
   ) : (

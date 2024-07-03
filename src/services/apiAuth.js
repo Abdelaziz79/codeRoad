@@ -1,6 +1,6 @@
 import axios from "axios";
-import { backendUrl } from "./backend";
 import { toast } from "react-toastify";
+import { backendUrl } from "./backend";
 
 export async function singup({
   firstName,
