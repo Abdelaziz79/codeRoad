@@ -11,10 +11,10 @@ import { formatedDate } from "../../helper/helper";
 import { voteComment } from "../../services/apiCommnets";
 import CreateComment from "./CreateComment";
 import { useCommentsOnPost } from "./useCommentsOnPost";
+import { Link } from "react-router-dom";
 
 export default function Comments({ post_id }) {
   const { comments, isLoading } = useCommentsOnPost(post_id);
-
   if (isLoading) {
     return <Spinner />;
   }
@@ -63,16 +63,25 @@ function CommentComp({ comment, postId }) {
     <Spinner />
   ) : (
     <div className="d-flex align-items-center gap-3 mt-3 comment">
-      <Avatar
-        src={comment?.userImage || logo}
-        alt="avatar"
-        width={50}
-        height={50}
-      />
+      <Link to={`/profile/${comment?.userId}`}>
+        <Avatar
+          src={comment?.userImage || logo}
+          alt="avatar"
+          width={50}
+          height={50}
+        />
+      </Link>
       <div className="d-flex flex-column justify-content-center align-items-start w-100  ">
-        <h6 className={`${darkMode ? "text-white" : "text-dark"}`}>
-          {comment?.userName}
-        </h6>
+        <Link
+          className={`fw-bold text-decoration-none ${
+            darkMode ? "text-light" : "text-dark"
+          }`}
+          to={`/profile/${comment?.userId}`}
+        >
+          <h6 className={`${darkMode ? "text-white" : "text-dark"}`}>
+            {comment?.userName}
+          </h6>
+        </Link>
         <span className={`date `}>{formatedDate(comment?.date)}</span>
 
         <div className="d-flex justify-content-between w-100 align-items-center">

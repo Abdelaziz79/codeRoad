@@ -15,6 +15,7 @@ import { useDarkMode } from "../../context/DarkModeContext";
 import { formatedDate } from "../../helper/helper";
 import { votePost } from "../../services/apiPosts";
 import Comments from "../comments/Comments";
+import { Link } from "react-router-dom";
 
 export default function Post({ post }) {
   const { darkMode } = useDarkMode();
@@ -22,7 +23,6 @@ export default function Post({ post }) {
   const [isLoading, setIsLoading] = useState(false);
   const logo = darkMode ? darkLogo : lightLogo;
   const queryClient = useQueryClient();
-
   async function handleVoteUp() {
     setIsLoading(true);
     await votePost(post.post.postId, 1);
@@ -48,14 +48,23 @@ export default function Post({ post }) {
         <Card className={`w-100 ${darkMode ? "post-dark" : ""}`}>
           <Card.Header className={`${darkMode ? "post-header-border" : ""}`}>
             <div className="d-flex align-items-center gap-3">
-              <Avatar
-                src={post.post?.userImage ?? logo}
-                alt="avatar"
-                width={70}
-                height={70}
-              />
+              <Link to={`/profile/${post.post?.userId}`}>
+                <Avatar
+                  src={post.post?.userImage ?? logo}
+                  alt="avatar"
+                  width={70}
+                  height={70}
+                />
+              </Link>
               <div>
-                <h6>{post.post?.userName}</h6>
+                <Link
+                  className={`fw-bold text-decoration-none ${
+                    darkMode ? "text-light" : "text-dark"
+                  }`}
+                  to={`/profile/${post.post?.userId}`}
+                >
+                  <h6>{post.post?.userName}</h6>
+                </Link>
                 <span className="date d-flex gap-1">
                   <HiMiniGlobeEuropeAfrica size={20} />
                   {formatedDate(post.post?.date)}

@@ -253,6 +253,20 @@ export async function getUserActiveDays() {
     });
   return data;
 }
+
+export async function getUserById(id) {
+  const { data } = await axios
+    .get(`${backendUrl}api/User/GetUserById?id=${id}`, {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
+      },
+    })
+    .catch((err) => {
+      throw new Error(err.message);
+    });
+  return data;
+}
+
 export async function loginWithGithub() {
   throw new Error("not implemented");
 }

@@ -26,6 +26,7 @@ import { useDarkMode } from "./context/DarkModeContext";
 import ProtectedRoute from "./ui/ProtectedRoute";
 import PostPage from "./features/posts/PostPage";
 import UpdatePost from "./features/posts/UpdatePost";
+import Profile from "./ui/Profile";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -59,6 +60,7 @@ function App() {
                 <Route path="update" element={<UserUpdate />} />
                 <Route path="addtopic" element={<AddExplanation />} />
               </Route>
+              <Route path="/profile/:id" element={<Profile />} />
               <Route path="topics" element={<Topics />} />
               <Route path="topics/:id" element={<TheExplanationPage />} />
               <Route path="topics/edit/:id" element={<UpdateTopic />} />
