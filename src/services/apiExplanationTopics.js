@@ -102,15 +102,12 @@ export async function getVerifiedTopics() {
 
 export async function addTopicName(topicName) {
   const { data } = await axios
-    .post(
-      `${backendUrl}api/Topic/AddTopic/${topicName}`,
-      {},
-      {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("token")}`,
-        },
-      }
-    )
+    .post(`${backendUrl}api/Topic/AddTopic`, topicName, {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
+        "Content-Type": "application/json",
+      },
+    })
     .catch((err) => {
       throw new Error(err.message);
     });
