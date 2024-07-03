@@ -6,6 +6,7 @@ import { useState } from "react";
 import { Link } from "react-router-dom";
 import { useDarkMode } from "../../context/DarkModeContext";
 import { useLogin } from "./useLogin";
+import { toast } from "react-toastify";
 
 export default function Login() {
   const [email, setEmail] = useState("");
@@ -17,12 +18,14 @@ export default function Login() {
   function handleSubmit(e) {
     e.preventDefault();
     if (!email || !password) return;
+    login({ email, password });
     login(
       { email, password },
       {
         onSettled: () => {
           setEmail("");
           setPassword("");
+          toast.success("Login successful");
         },
       }
     );
