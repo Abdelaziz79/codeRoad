@@ -7,6 +7,8 @@ import { useQueryClient } from "@tanstack/react-query";
 import { useState } from "react";
 import { Card, Col, Row, Spinner } from "react-bootstrap";
 import {
+  HiHandThumbDown,
+  HiHandThumbUp,
   HiMiniGlobeEuropeAfrica,
   HiOutlineHandThumbDown,
   HiOutlineHandThumbUp,
@@ -16,18 +18,31 @@ import { formatedDate } from "../../helper/helper";
 import { votePost } from "../../services/apiPosts";
 import Comments from "../comments/Comments";
 import { Link } from "react-router-dom";
+import { useUser } from "../authentication/useUser";
 
 export default function Post({ post }) {
   const { darkMode } = useDarkMode();
   const [showComments, setShowComments] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const { user, isLoading: isUserLoading } = useUser();
   const logo = darkMode ? darkLogo : lightLogo;
   const queryClient = useQueryClient();
+
+  if (isUserLoading) return <Spinner animation="grow" />;
+
+  const upVotesPosts = user.userVotes.postVotesId.upPosts;
+  const downVotesPosts = user.userVotes.postVotesId.downPosts;
+
+  const isPostVoteUp = upVotesPosts.indexOf(post.post.postId) !== -1;
+  const isPostVoteDown = downVotesPosts.indexOf(post.post.postId) !== -1;
+
   async function handleVoteUp() {
     setIsLoading(true);
     await votePost(post.post.postId, 1);
 
     queryClient.invalidateQueries({ queryKey: ["posts"] });
+    queryClient.invalidateQueries({ queryKey: ["user"] });
+
     setIsLoading(false);
   }
 
@@ -36,6 +51,8 @@ export default function Post({ post }) {
     await votePost(post.post.postId, 0);
 
     queryClient.invalidateQueries({ queryKey: ["posts"] });
+    queryClient.invalidateQueries({ queryKey: ["user"] });
+
     setIsLoading(false);
   }
 
@@ -81,30 +98,50 @@ export default function Post({ post }) {
             </div>
             <hr />
             <div className="d-flex align-items-center gap-3">
-              <span className="d-flex align-items-center gap-2">
-                {isLoading ? (
-                  <Spinner />
-                ) : (
-                  <HiOutlineHandThumbUp
-                    size={20}
-                    className="pointer"
-                    onClick={() => handleVoteUp(post.postId, 1)}
-                  />
-                )}
-                {post.post?.up}
-              </span>
-              <span className="d-flex align-items-center gap-2">
-                {isLoading ? (
-                  <Spinner />
-                ) : (
-                  <HiOutlineHandThumbDown
-                    size={20}
-                    className="pointer"
-                    onClick={() => handleVoteDown(post.postId, 0)}
-                  />
-                )}
-                {post.post?.down}
-              </span>
+              {isLoading ? (
+                <Spinner />
+              ) : (
+                <div>
+                  <span className="d-flex align-items-center gap-2">
+                    {isPostVoteUp ? (
+                      <HiHandThumbUp
+                        size={20}
+                        className="pointer"
+                        onClick={() => handleVoteUp(post.postId, 1)}
+                      />
+                    ) : (
+                      <HiOutlineHandThumbUp
+                        size={20}
+                        className="pointer"
+                        onClick={() => handleVoteUp(post.postId, 1)}
+                      />
+                    )}
+                    {post.post?.up}
+                  </span>
+                </div>
+              )}
+              {isLoading ? (
+                <Spinner />
+              ) : (
+                <div>
+                  <span className="d-flex align-items-center gap-2">
+                    {isPostVoteDown ? (
+                      <HiHandThumbDown
+                        size={20}
+                        className="pointer"
+                        onClick={() => handleVoteDown(post.postId, 0)}
+                      />
+                    ) : (
+                      <HiOutlineHandThumbDown
+                        size={20}
+                        className="pointer"
+                        onClick={() => handleVoteDown(post.postId, 0)}
+                      />
+                    )}
+                    {post.post?.down}
+                  </span>
+                </div>
+              )}
               <div className="flex-grow-1">
                 <span
                   className=" float-end pointer"

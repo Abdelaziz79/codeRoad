@@ -5,19 +5,26 @@ import Avatar from "../../ui/Avatar";
 import { useQueryClient } from "@tanstack/react-query";
 import { useState } from "react";
 import { Spinner } from "react-bootstrap";
-import { HiOutlineHandThumbDown, HiOutlineHandThumbUp } from "react-icons/hi2";
+import {
+  HiHandThumbDown,
+  HiHandThumbUp,
+  HiOutlineHandThumbDown,
+  HiOutlineHandThumbUp,
+} from "react-icons/hi2";
 import { useDarkMode } from "../../context/DarkModeContext";
 import { formatedDate } from "../../helper/helper";
 import { voteComment } from "../../services/apiCommnets";
 import CreateComment from "./CreateComment";
 import { useCommentsOnPost } from "./useCommentsOnPost";
 import { Link } from "react-router-dom";
+import { useUser } from "../authentication/useUser";
 
 export default function Comments({ post_id }) {
   const { comments, isLoading } = useCommentsOnPost(post_id);
   if (isLoading) {
     return <Spinner />;
   }
+
   if (comments === "there is no comments")
     return (
       <div className="mt-3">
@@ -41,13 +48,20 @@ function CommentComp({ comment, postId }) {
   const { darkMode } = useDarkMode();
   const logo = darkMode ? darkLogo : lightLogo;
   const queryClient = useQueryClient();
+  const { user, isLoading: isUserLoading } = useUser();
+  if (isUserLoading) return <Spinner />;
+  const upVotesComments = user.userVotes.commentVotesId.upComments;
+  const downVotesComments = user.userVotes.commentVotesId.downComments;
+  const isCommentVoteUp = upVotesComments.indexOf(comment.id) !== -1;
+  const isCommentVoteDown = downVotesComments.indexOf(comment.id) !== -1;
+
   async function handleUpVote(e) {
     setIsLoading(true);
 
     e.preventDefault();
     await voteComment(Number(comment?.id), 1);
     queryClient.invalidateQueries({ queryKey: ["comments", postId] });
-
+    queryClient.invalidateQueries({ queryKey: ["user"] });
     setIsLoading(false);
   }
 
@@ -56,6 +70,8 @@ function CommentComp({ comment, postId }) {
     e.preventDefault();
     await voteComment(Number(comment?.id), 0);
     queryClient.invalidateQueries({ queryKey: ["comments", postId] });
+    queryClient.invalidateQueries({ queryKey: ["user"] });
+
     setIsLoading(false);
   }
   return isLoading ? (
@@ -89,19 +105,35 @@ function CommentComp({ comment, postId }) {
           </p>
           <div className="d-flex gap-2">
             <span className="d-flex gap-1 align-items-center">
-              <HiOutlineHandThumbUp
-                size={20}
-                className="pointer"
-                onClick={handleUpVote}
-              />
+              {isCommentVoteUp ? (
+                <HiHandThumbUp
+                  size={20}
+                  className="pointer"
+                  onClick={handleUpVote}
+                />
+              ) : (
+                <HiOutlineHandThumbUp
+                  size={20}
+                  className="pointer"
+                  onClick={handleUpVote}
+                />
+              )}
               {comment?.up}
             </span>
             <span className="d-flex gap-1 align-items-center">
-              <HiOutlineHandThumbDown
-                size={20}
-                className="pointer"
-                onClick={handleDownVote}
-              />
+              {isCommentVoteDown ? (
+                <HiHandThumbDown
+                  size={20}
+                  className="pointer"
+                  onClick={handleDownVote}
+                />
+              ) : (
+                <HiOutlineHandThumbDown
+                  size={20}
+                  className="pointer"
+                  onClick={handleDownVote}
+                />
+              )}
               {comment?.down}
             </span>
           </div>

@@ -12,7 +12,7 @@ export default function Posts() {
   return (
     <div>
       <div className="d-flex flex-column gap-3">
-        {posts.map((post) => (
+        {posts?.map((post) => (
           <Post key={post.post.postId} post={post} />
         ))}
 
