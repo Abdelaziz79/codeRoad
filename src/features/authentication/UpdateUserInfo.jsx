@@ -8,25 +8,24 @@ import { useUser } from "./useUser";
 export default function UpdateUserInfo() {
   const { user } = useUser();
   const currentEmail = user?.userInfo?.email;
-  const name = user?.userInfo?.userName;
+  const lastName = user?.userInfo?.lastName;
+  const firstName = user?.userInfo?.firstName;
 
-  const [userName, setUserName] = useState(name);
+  const [userFirstName, setFirstUserName] = useState(firstName);
+  const [userLastName, setUserLastName] = useState(lastName);
   const [avatar, setAvatar] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
 
   async function handleSubmit(e) {
     e.preventDefault();
     setIsLoading(true);
-    if (!userName && !avatar) return;
+    if (!userFirstName && !userLastName && !avatar) return;
     try {
-      if (userName !== undefined && userName !== user.userInfo.userName) {
-        await updateUserName(userName);
-        toast.success("Name updated successfully");
-      }
+      await updateUserName(userFirstName, userLastName);
       if (avatar) {
         await updateUserImage({ avatar });
-        toast.success("avatar updated successfully");
       }
+      toast.success("updated successfully");
     } catch (error) {
       console.error(error);
     }
@@ -34,7 +33,7 @@ export default function UpdateUserInfo() {
   }
 
   function handleCancel() {
-    setUserName(name);
+    setFirstUserName(firstName);
     setAvatar(user?.userImage);
   }
 
@@ -59,17 +58,34 @@ export default function UpdateUserInfo() {
               style={{ cursor: "not-allowed", color: "black" }}
             />
           </div>
-          <div className="d-flex  gap-3 ">
-            <label className=" form-label w-25" htmlFor="name">
-              Name
+          <div className="d-flex  gap-3  ">
+            <label className=" form-label w-25 " htmlFor="fname">
+              First name
             </label>
             <input
-              value={userName}
-              onChange={(e) => setUserName(e.target.value)}
+              value={userFirstName}
+              onChange={(e) => setFirstUserName(e.target.value)}
               type="text"
-              name="name"
-              id="name"
-              className="form-control w-75"
+              name="fname"
+              id="fname"
+              className="form-control w-75 "
+              required
+              placeholder="name"
+              disabled={isLoading}
+            />
+          </div>
+
+          <div className="d-flex  gap-3  ">
+            <label className=" form-label w-25 " htmlFor="lname">
+              Last name
+            </label>
+            <input
+              value={userLastName}
+              onChange={(e) => setUserLastName(e.target.value)}
+              type="text"
+              name="lname"
+              id="lname"
+              className="form-control w-75 "
               required
               placeholder="name"
               disabled={isLoading}

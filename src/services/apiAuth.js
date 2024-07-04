@@ -78,12 +78,12 @@ export async function logout() {
   window.localStorage.removeItem("user");
 }
 
-export async function updateUserName(username) {
+export async function updateUserName(firstName, lastName) {
   const token = window.localStorage.getItem("token");
 
   const { data } = await axios
     .put(
-      `${backendUrl}api/Auth/UpdateUserName?userName=${username}`,
+      `${backendUrl}api/Auth/UpdateName?FirstName=${firstName}&LastName=${lastName}`,
       {},
       {
         headers: {

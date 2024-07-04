@@ -37,6 +37,9 @@ export default function UserInfo() {
         </Col>
         <Col md={8} lg={10} sm={12}>
           <div className="mt-3">
+            <h3>
+              {user?.userInfo?.firstName + " " + user?.userInfo?.lastName}
+            </h3>
             <h3>{user?.userInfo?.userName}</h3>
             <h5>{user?.userInfo?.email}</h5>
           </div>

@@ -9,6 +9,7 @@ export default function UserUpdate() {
   async function handleDelete() {
     await deleteUser();
     toast.success("Account deleted successfully");
+    window.location.reload();
   }
   return (
     <>

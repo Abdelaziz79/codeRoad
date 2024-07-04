@@ -41,7 +41,9 @@ export default function NavBar() {
               darkMode ? "text-light" : "text-dark"
             }`}
           >
-            <span className="fw-bold">{user?.userInfo?.userName}</span>
+            <span className="fw-bold">
+              {user?.userInfo?.firstName + " " + user?.userInfo?.lastName}
+            </span>
           </Link>
         </li>
         <li>
