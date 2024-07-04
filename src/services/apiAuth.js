@@ -40,11 +40,17 @@ export async function login({ email, password }) {
     .catch((error) => {
       throw new Error(error.message);
     });
+
   window.localStorage.setItem("token", data.token);
-  window.localStorage.setItem("user", JSON.stringify(data.user));
-  if (data.user !== null && data.user !== undefined)
-    toast.success("login successful");
-  else toast.error("email or password not correct");
+  window.localStorage.setItem("user", JSON.stringify(data));
+  if (
+    data !== null &&
+    data !== undefined &&
+    data !== "Email or Password is incorrect!"
+  )
+    toast.success(`welcome back ${data.userName}`);
+  else toast.error("login failed");
+
   return data;
 }
 
