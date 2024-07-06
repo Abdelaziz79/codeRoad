@@ -8,6 +8,7 @@ import {
   HiUser,
   HiMiniBookOpen,
   HiMiniGlobeAsiaAustralia,
+  HiCodeBracketSquare,
 } from "react-icons/hi2";
 import Footer from "./Footer";
 import { useDarkMode } from "../context/DarkModeContext";
@@ -93,6 +94,20 @@ export default function SideBar() {
             } sidebar-button`}
           >
             <HiMiniGlobeAsiaAustralia size={20} /> Posts
+          </span>
+        </NavLink>
+        <NavLink
+          to="/code"
+          className={
+            darkMode ? ({ isActive }) => (isActive ? "active-dark" : "") : ""
+          }
+        >
+          <span
+            className={`${
+              darkMode ? "sidebar-button-dark " : ""
+            } sidebar-button`}
+          >
+            <HiCodeBracketSquare size={20} /> Code
           </span>
         </NavLink>
       </div>

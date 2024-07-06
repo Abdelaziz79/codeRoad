@@ -24,6 +24,7 @@ import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import { ToastContainer } from "react-toastify";
 import { useDarkMode } from "./context/DarkModeContext";
 import ProtectedRoute from "./ui/ProtectedRoute";
+import LiveCodesComp from "./ui/LiveCodesComp";
 import PostPage from "./features/posts/PostPage";
 import UpdatePost from "./features/posts/UpdatePost";
 import Profile from "./ui/Profile";
@@ -68,6 +69,7 @@ function App() {
               <Route path="posts/edit/:id" element={<UpdatePost />} />
               <Route path="post/:id" element={<PostPage />} />
               <Route path="preview" element={<Preview />} />
+              <Route path="code" element={<LiveCodesComp />} />
               <Route path="*" element={<h1> Page Not Found</h1>} />
               <Route path="/quiz/:id" element={<QuizPage />} />
             </Route>
