@@ -28,11 +28,12 @@ export default function Profile() {
             </Col>
           </Row>
         </div>
-        {posts.map((post, i) => (
-          <div className="mt-3">
-            <Post key={i} post={post} />
-          </div>
-        ))}
+        {posts &&
+          posts.map((post, i) => (
+            <div className="mt-3">
+              <Post key={i} post={post} />
+            </div>
+          ))}
       </>
     </div>
   );
