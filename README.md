@@ -84,14 +84,14 @@
 ### Setup
 
 #### Supabase Backend Version
-1. Clone the repository: `git clone https://github.com/yourusername/coderoad.git`
+1. Clone the repository: `git clone https://github.com/Abdelaziz79/coderoad.git`
 2. Navigate to the project directory: `cd coderoad`
 3. Install dependencies: `npm install` or `yarn install`
 4. Set up your Supabase project and configure environment variables.
 5. Run the development server: `npm start` or `yarn start`
 
 #### .NET Backend Version
-1. Clone the repository: `git clone https://github.com/yourusername/coderoad.git`
+1. Clone the repository: `git clone https://github.com/Abdelaziz79/coderoad.git`
 2. Navigate to the project directory: `cd coderoad`
 3. Install dependencies: `npm install` or `yarn install`
 4. Set up your .NET backend and configure environment variables.
