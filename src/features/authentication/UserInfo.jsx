@@ -3,7 +3,6 @@ import Avatar from "../../ui/Avatar";
 import StatisticBox from "../../ui/StatisticBox";
 
 import lightLogo from "../../../public/1.png";
-import darkLogo from "../../../public/2.png";
 
 import { Col, Row, Spinner } from "react-bootstrap";
 import { useDarkMode } from "../../context/DarkModeContext";
@@ -26,7 +25,7 @@ export default function UserInfo() {
       userName: user?.userInfo?.userName,
     };
   });
-  const logo = darkMode ? darkLogo : lightLogo;
+  const logo = lightLogo;
   const avatar = user?.userImage ?? logo;
   if (isUserLoading) return <Spinner animation="grow" />;
   return (

@@ -2,9 +2,9 @@ import React from "react";
 import MarkDown from "./MarkDown";
 
 export default function About() {
-  const about = `# **Welcome to \`CodeRoad\`**
+  const about = `# **Welcome to \`Dev Learn\`**
 
-  - ###### **\`CodeRoad\`** is your ultimate destination for learning and mastering coding skills. Whether you're a beginner or an experienced programmer, we provide a platform where you can explore various topics, take quizzes to test your knowledge, engage with the community through posts and comments, and continuously improve your coding abilities.
+  - ###### **\`Dev Learn\`** is your ultimate destination for learning and mastering coding skills. Whether you're a beginner or an experienced programmer, we provide a platform where you can explore various topics, take quizzes to test your knowledge, engage with the community through posts and comments, and continuously improve your coding abilities.
   
   ## **What We Offer**
   
@@ -28,7 +28,7 @@ export default function About() {
   
   #### 5. **User Account Management**
   
-  - ###### Create a user account to personalize your experience on \`CodeRoad\`. Easily update your name and password to keep your account secure and up to date.
+  - ###### Create a user account to personalize your experience on \`Dev Learn\`. Easily update your name and password to keep your account secure and up to date.
   
   #### 6. **Comprehensive Search Functionality**
   
@@ -36,6 +36,6 @@ export default function About() {
   
   ### **Get Started Today**
   
-  - ###### Embark on your coding journey with \`CodeRoad\`. Whether you're looking to learn the basics or dive deep into advanced concepts, we're here to support you every step of the way. Join our community of passionate learners and take your coding skills to new heights.`;
+  - ###### Embark on your coding journey with \`Dev Learn\`. Whether you're looking to learn the basics or dive deep into advanced concepts, we're here to support you every step of the way. Join our community of passionate learners and take your coding skills to new heights.`;
   return <MarkDown markdown={about} />;
 }

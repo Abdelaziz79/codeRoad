@@ -1,12 +1,10 @@
 import lightImage from "../../../public/1.png";
-import darkImage from "../../../public/2.png";
-import Avatar from "../../ui/Avatar";
 
 import { useState } from "react";
-import { useDarkMode } from "../../context/DarkModeContext";
-import { useSignup } from "./useSignup";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
+import { useDarkMode } from "../../context/DarkModeContext";
+import { useSignup } from "./useSignup";
 
 export default function Register() {
   const [email, setEmail] = useState("");
@@ -65,12 +63,7 @@ export default function Register() {
           style={{ width: "400px", height: "800px" }}
         >
           <div className="text-center mt-4">
-            <Avatar
-              src={darkMode ? darkImage : lightImage}
-              alt="avatar"
-              width={150}
-              height={150}
-            />
+            <img src={lightImage} alt="avatar" width={200} />
           </div>
           <h3 className="card-title text-center mb-4">Register</h3>
           <form>

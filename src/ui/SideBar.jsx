@@ -1,5 +1,4 @@
 import lightImage from "../../public/1.png";
-import darkImage from "../../public/2.png";
 
 import { NavLink } from "react-router-dom";
 import { useSliderToggle } from "../context/SliderToggleContext";
@@ -25,14 +24,12 @@ export default function SideBar() {
       }`}
     >
       <img
-        src={darkMode ? darkImage : lightImage}
+        src={lightImage}
         alt="logo"
-        width="100px"
-        height="100px"
-        className="rounded-circle"
+        width="200px"
+        className=""
         style={{ objectFit: "cover" }}
       />
-      <p className="lead fw-bold ">CodeRoad</p>
       <div
         className={`${
           darkMode

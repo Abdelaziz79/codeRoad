@@ -1,6 +1,4 @@
 import lightImage from "../../../public/1.png";
-import darkImage from "../../../public/2.png";
-import Avatar from "../../ui/Avatar";
 
 import { useState } from "react";
 import { Link } from "react-router-dom";
@@ -28,12 +26,7 @@ export default function Login() {
           style={{ width: "400px", height: "700px" }}
         >
           <div className="text-center">
-            <Avatar
-              src={darkMode ? darkImage : lightImage}
-              alt="avatar"
-              width={150}
-              height={150}
-            />
+            <img src={lightImage} alt="avatar" width={200} />
           </div>
           <h3 className="card-title text-center mb-4">Login</h3>
           <form>

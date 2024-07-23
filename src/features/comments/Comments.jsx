@@ -1,5 +1,4 @@
 import lightLogo from "../../../public/1.png";
-import darkLogo from "../../../public/2.png";
 import Avatar from "../../ui/Avatar";
 
 import { useQueryClient } from "@tanstack/react-query";
@@ -46,7 +45,7 @@ function CommentComp({ comment, postId }) {
   const [isLoading, setIsLoading] = useState(false);
 
   const { darkMode } = useDarkMode();
-  const logo = darkMode ? darkLogo : lightLogo;
+  const logo = lightLogo;
   const queryClient = useQueryClient();
   const { user, isLoading: isUserLoading } = useUser();
   if (isUserLoading) return <Spinner />;

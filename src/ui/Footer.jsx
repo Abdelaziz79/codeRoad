@@ -10,7 +10,7 @@ export default function Footer() {
         darkMode ? "text-light" : ""
       } `}
     >
-      <p>CodeRoad © 2024</p>
+      <p>Dev Learn © 2024</p>
       <p onClick={() => setCount((count) => count + 1)}>
         {count >= 7 ? (
           <a

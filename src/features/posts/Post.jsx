@@ -1,5 +1,4 @@
 import lightLogo from "../../../public/1.png";
-import darkLogo from "../../../public/2.png";
 import Avatar from "../../ui/Avatar";
 import MarkDown from "../../ui/MarkDown";
 
@@ -25,7 +24,7 @@ export default function Post({ post }) {
   const [showComments, setShowComments] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const { user, isLoading: isUserLoading } = useUser();
-  const logo = darkMode ? darkLogo : lightLogo;
+  const logo = lightLogo;
   const queryClient = useQueryClient();
 
   if (isUserLoading) return <Spinner animation="grow" />;

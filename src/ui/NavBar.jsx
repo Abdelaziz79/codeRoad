@@ -2,7 +2,6 @@ import React from "react";
 import Avatar from "./Avatar";
 
 import lightLogo from "../../public/1.png";
-import darkLogo from "../../public/2.png";
 
 import { Spinner } from "react-bootstrap";
 import {
@@ -21,7 +20,7 @@ export default function NavBar() {
   const { logout, isLoading } = useLogout();
   const { user } = useUser();
   const { activeDay, isLoading: isLoadingActive } = useActiveDay();
-  const logo = darkMode ? darkLogo : lightLogo;
+  const logo = lightLogo;
   const avatar = user?.userImage ?? logo;
 
   return (
