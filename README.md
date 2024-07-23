@@ -1,7 +1,6 @@
 # Welcome to `Dev Learn`
 
-![2](https://github.com/user-attachments/assets/1b650a73-1d66-49dc-9172-57186a3a27c6)
-![1](https://github.com/user-attachments/assets/21cda950-282c-4bf5-b660-d0d8f353f3f7)
+![alt text](public/1.png)
 
 # Welcome to `Dev Learn`
 
